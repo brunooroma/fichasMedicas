@@ -29,7 +29,7 @@ const solicitarEspecialidad = () => {
 
 const solicitarMatricula = () => {
     matricula = prompt('Ingrese su Matricula');
-    while (isNaN(parseInt(matricula)) || matricula.length < 5 || matricula.length > 6)  {
+    while (isNaN(parseInt(matricula)) || matricula.length < 5 || matricula.length > 6  || matricula < 10000)  {
         matricula = prompt('Ingrese su Matricula');
     }
 }
