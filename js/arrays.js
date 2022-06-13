@@ -16,8 +16,6 @@ const paciente3 = new Paciente('Ramirez','Pablo',18);
 const paciente4 = new Paciente('Lopez','Laura',33);
 const paciente5 = new Paciente('Ruiz','Paola',39);
 
-/* console.log(paciente1.mostrarPaciente()); */
-
 class DetalleHistoria {
     constructor(paciente, diagnostico) {
         this.paciente = paciente
@@ -35,8 +33,6 @@ const detalleHistoria3 = new DetalleHistoria(paciente3,'Hipertension');
 const detalleHistoria4 = new DetalleHistoria(paciente4,'Vomitos');
 const detalleHistoria5 = new DetalleHistoria(paciente5,'Lumbalgia');
 
-/* console.log(detalleHistoria3.mostrarHistoria()); */
-
 class Consulta {
     constructor(fecha, detalles) {
         this.fecha = fecha;
@@ -44,9 +40,9 @@ class Consulta {
     }
 
     mostrarConsulta() {
-        let texto = 'Fecha de la consulta ' + this.fecha + '\n';
+        let texto = 'Fecha de las consultas ' + this.fecha + '\n';
         for (const dh of this.detalles) {
-            texto = texto + dh.mostrarHistoria() + '\n'
+            texto += dh.mostrarHistoria() + '\n';
         }
         return texto;
     }
