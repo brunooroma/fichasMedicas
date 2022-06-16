@@ -59,3 +59,17 @@ array.push(detalleHistoria5);
 const consulta1 = new Consulta(new Date().toDateString(), array);
 
 console.log(consulta1.mostrarConsulta())
+ 
+const apellidos = [];
+
+apellidos.push(paciente1);
+apellidos.push(paciente2);
+apellidos.push(paciente3);
+apellidos.push(paciente4);
+apellidos.push(paciente5);
+
+console.log(apellidos);
+
+const filtrado = apellidos.filter(paciente => paciente.edad > 40);
+
+console.log(filtrado);
