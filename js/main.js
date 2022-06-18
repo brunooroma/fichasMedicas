@@ -1,4 +1,4 @@
-let nombre;
+/* let nombre;
 let apellido;
 let especialidad;
 let matricula;
@@ -73,4 +73,5 @@ document.write(especialidad + '<br>');
 document.write(matricula + '<br>');
 document.write(`El dia de hoy atendera: ${cantidadPacientes}` + '<br>');
 document.write(`Los turnos del dia duraran ${tiempoTurno}min` + '<br>');
-document.write(`La cantidad de horas a trabajar hoy son: ${horasTrabajadas}hs` + '<br>');
+document.write(`La cantidad de horas a trabajar hoy son: ${horasTrabajadas}hs` + '<br>'); */
+
