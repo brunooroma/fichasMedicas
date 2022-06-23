@@ -13,10 +13,10 @@
     <header>
         <nav class="header__nav">
             <div>
-            <img src="https://www.coca-cola.com.ar/content/dam/one/ar/es/es/CC_Argentina_Lockup_Horizontal_White-footer.png" alt="">
+            <h2>Fichas Medicas</h2>
             </div>
             <div>
-            <input type="text" id="inputFiltar" placeholder="Buscar..">
+            <input type="text" id="inputFiltrar" placeholder="Buscar..">
             <button type="button" id="btn_filtrar">Buscar</button>
             </div>
         </nav>
@@ -31,7 +31,20 @@
            
         </section>
 
+        <section>
+            <div id="formularioRegistro">
+                <h3>Complete los datos del paciente</h3>
+                <form id="formulario">
+                    <input type="text" name="nombre" id="nombre" placeholder="Nombre">
+                    <input type="text" name="apellido" id="apellido" placeholder="Apellido">
+                    <input type="number" name="edad" id="edad" placeholder="Edad">
+                    <input type="text" name="diagnostico" id="diagnostico" placeholder="Diagnostico">
+                    <input type="number" name="medicoID" id="medicoID" placeholder="MedicoID">
+                    <button id="registrarPaciente">Registrar Paciente</button>
 
+                </form>
+            </div>
+        </section>
 
 
 

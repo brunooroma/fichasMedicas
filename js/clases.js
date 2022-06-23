@@ -55,9 +55,17 @@ class Paciente {
 }
 
 const medico1 = new Medico(1,'Suarez','Pablo',123456);
-const medico2 = new Medico(2,'Marquez','Mariela',654321);
-const medico3 = new Medico(3,'Zapata','Florencia',231456);
-const medico4 = new Medico(4,'Fernandez','Esteban',645321);
+const medico2 = new Medico(2,'Marquez','Mariela',118321);
+const medico3 = new Medico(3,'Zapata','Florencia',98456);
+const medico4 = new Medico(4,'Fernandez','Esteban',102354);
+const medico5 = new Medico(5,'Ramirez','Estela',121854);
+const medico6 = new Medico(6,'Santos','Mauricio',54623);
+const medico7 = new Medico(7,'Lopez','Hernan',130587);
+const medico8 = new Medico(8,'Perez','Sofia',135497);
+const medico9 = new Medico(9,'Suarez','Fabiana',104202);
+const medico10 = new Medico(10,'Martinez','Gerardo',110290);
+const medico11 = new Medico(11,'Hernandez','Soledad',87250);
+const medico12 = new Medico(12,'Garcia','Fabian',65326);
 
 console.log(medico1.mostrarMedico());
 console.log(medico2.mostrarMedico());
@@ -70,16 +78,21 @@ arrMedicos.push(medico1);
 arrMedicos.push(medico2);
 arrMedicos.push(medico3);
 arrMedicos.push(medico4);
+arrMedicos.push(medico5);
+arrMedicos.push(medico6);
+arrMedicos.push(medico7);
+arrMedicos.push(medico8);
+arrMedicos.push(medico9);
+arrMedicos.push(medico10);
+arrMedicos.push(medico11);
+arrMedicos.push(medico12);
+
 
 arrMedicos.forEach(medico => console.log(medico.apellidoMedico));
 
 const arrMedicosApellido = arrMedicos.map(e => e.apellidoMedico);
 
-console.log(arrMedicosApellido);
-
 arrMedicosApellido.sort();
-
-console.log(arrMedicosApellido);
 
 const arrDiagnosticos = ['Dolor de Cabeza','Esguince de Tobillo','Asma','Fiebre'];
 
@@ -95,8 +108,6 @@ const paciente2 = new Paciente(2,'Acosta','Rosa',50,arrDiagnosticos[0],2);
 const paciente3 = new Paciente(3,'Jimenez','Mabel',50,arrDiagnosticos[4],3);
 const paciente4 = new Paciente(4,'Galimberti','Jose',50,arrDiagnosticos[3],5);
 
-console.log(paciente1);
-
 console.log(paciente1.mostrarMedicoTratante());
 console.log(paciente2.mostrarMedicoTratante());
 console.log(paciente3.mostrarMedicoTratante());
@@ -110,7 +121,5 @@ arrPacientes.push(paciente3);
 arrPacientes.push(paciente4);
 
 const consultorio = new Consultorio(arrMedicos,arrPacientes);
-
-console.log(consultorio);
 
 consultorio.mostrarMedicos();
