@@ -1,61 +1,64 @@
-let titulo = document.getElementById('title');
+let nav = document.getElementById('nav');
 let mostrarTodosLosMedicos = document.getElementById('mostrarTodosLosMedicos');
 const divMedicos = document.getElementsByClassName('div');
 
+let inicioSesion = document.getElementById('navInicio');
+inicioSesion.innerHTML += `<select id="selectUsuario" name="usuario">
+                            <option>Medico</option>
+                            <option>Paciente</option>
+                            </select>
+                            <input type="number" name="idUsuario" id="idUsuario" placeholder="Identificador">
+
+                            <button id="botonInicio">Seleccionar</button>`;
+
+nav.prepend(inicioSesion);
+
+
 const mostrarTarjetasMedicos = () => {
-    arrMedicos.forEach((elemento) => {
+    for (const e of arrMedicos) {
         let tarjeta = document.createElement('div');
         tarjeta.setAttribute('class','tarjeta');
         mostrarTodosLosMedicos.append(tarjeta);
-        let apellido = document.createElement('h4');
-        apellido.innerText = `Profesional: 
-        ${elemento.apellidoMedico} ${elemento.nombreMedico}`;
-        let matricula = document.createElement('p');
-        matricula.innerText = `M.N: ${elemento.matriculaMedico}`;
-        let medicoId = document.createElement('p');
-        medicoId.innerText = `Identificador: ${elemento.medicoID}`;
+        tarjeta.innerHTML = `<h4>${e.apellidoMedico} ${e.nombreMedico}</h4>
+                            <img src="./img/perfil.png">
+                            <p>M.N: ${e.matriculaMedico}</p>
+                            <p>Identificador: ${e.medicoID}</p>`
 
-        tarjeta.append(apellido,matricula,medicoId)
-    })
+        mostrarTodosLosMedicos.appendChild(tarjeta)
+    }
 }
 
 mostrarTarjetasMedicos();
 
-let botonFiltrar = document.getElementById('btn_filtrar');
+/* let botonFiltrar = document.getElementById('btn_filtrar'); */
 let inputFiltrar = document.getElementById('inputFiltrar');
 
 const filtrarMedicos = () => {
-    const medicosFiltrados = arrMedicos.filter((e) => e.apellidoMedico === inputFiltrar.value);
-
+    mostrarTodosLosMedicos.innerHTML = ``
+    const medicosFiltrados = arrMedicos.filter((e) => {
+        return e.apellidoMedico.includes(inputFiltrar.value)});
+    
     if(inputFiltrar.value !== ''){
     medicosFiltrados.forEach((e) => {
         let tarjetaFiltrada = document.createElement('div');
         tarjetaFiltrada.setAttribute('class','tarjeta');
         mostrarTodosLosMedicos.append(tarjetaFiltrada);
-        let apellidoFiltrado = document.createElement('h4');
-        apellidoFiltrado.innerText = `Profesional: 
-        ${e.apellidoMedico} ${e.nombreMedico}`;
-        let matriculaFiltrada = document.createElement('p');
-        matriculaFiltrada.innerText = `M.N: ${e.matriculaMedico}`;
-        let medicoIdFiltrado = document.createElement('p');
-        medicoIdFiltrado.innerText = `Identificador: ${e.medicoID}`;
 
-        tarjetaFiltrada.append(apellidoFiltrado,matriculaFiltrada,medicoIdFiltrado);
+        tarjetaFiltrada.innerHTML += `<h4>${e.apellidoMedico} ${e.nombreMedico}</h4>
+        <img src="./img/perfil.png">
+        <p>M.N: ${e.matriculaMedico}</p>
+        <p>Identificador: ${e.medicoID}</p>`
+
+        mostrarTodosLosMedicos.appendChild(tarjetaFiltrada)
     })}else {
         mostrarTarjetasMedicos();
     }
 
 }
 
-botonFiltrar.onclick = () => {
-    mostrarTodosLosMedicos.innerHTML = ``
-    filtrarMedicos()
-}
-
-inputFiltrar.onchange = () => {
-    mostrarTodosLosMedicos.innerHTML = ``
-    filtrarMedicos()
-}
+/* botonFiltrar.addEventListener('click',filtrarMedicos);
+ */
+inputFiltrar.addEventListener('input',filtrarMedicos);
 
 const registrarPaciente = () => {
 
@@ -69,9 +72,9 @@ let formularioRegistro =  document.getElementById('formulario');
 const pacienteRegistro = new Paciente((arrPacientes.length+1),apellidoPacienteRegistro.value,nombrePacienteRegistro.value,edadPacienteRegistro.value,diagnosticoPacienteRegistro.value,medicoIDRegistro.value);
 
 arrPacientes.push(pacienteRegistro);
-arrPacientes.sort();
 
-console.log(arrPacientes);
+localStorage.setItem('Pacientes',JSON.stringify(arrPacientes));
+/* console.log(arrPacientes); */
 formularioRegistro.reset();
 }
 
@@ -81,4 +84,17 @@ registroPaciente.onclick = (e) => {
     e.preventDefault();
     registrarPaciente();
 }
+
+let selectUsuario = document.getElementById('selectUsuario');
+let idUsuario = document.getElementById('idUsuario');
+let botonInicio = document.getElementById('botonInicio');
+
+const iniciarSesion = (e) => {
+    e.preventDefault();
+    let usuarioSesion = `${selectUsuario.value} ${idUsuario.value}`
+    sessionStorage.setItem('sessionUsuario',usuarioSesion)
+    idUsuario.value = "";
+}
+
+botonInicio.addEventListener('click', iniciarSesion)
 

@@ -33,24 +33,9 @@ class Paciente {
         return `${this.apellidoPaciente} ${this.nombrePaciente} \n Diagnostico: ${this.diagnosticoPaciente}`;
     }
 
-    mostrarMedicoTratante() {
-        switch (this.medicoID) {
-            case 1:
-                return `${medico1.mostrarMedico()}`
-                break;
-            case 2:
-                return `${medico2.mostrarMedico()}`
-                break;
-            case 3:
-                return `${medico3.mostrarMedico()}`
-                break;
-            case 4:
-                return `${medico4.mostrarMedico()}`
-                break;      
-            default:
-                return `No tiene medico asignado`;
-                break;
-        }
+    mostrarMedicoCabecera() {
+        let medicoCabecera = arrMedicos.find(e => e.medicoID === this.medicoID)
+        return `El medico de cabecera es: ${medicoCabecera.apellidoMedico} ${medicoCabecera.nombreMedico}`
     }
 }
 
@@ -67,10 +52,10 @@ const medico10 = new Medico(10,'Martinez','Gerardo',110290);
 const medico11 = new Medico(11,'Hernandez','Soledad',87250);
 const medico12 = new Medico(12,'Garcia','Fabian',65326);
 
-console.log(medico1.mostrarMedico());
+/* console.log(medico1.mostrarMedico());
 console.log(medico2.mostrarMedico());
 console.log(medico3.mostrarMedico());
-console.log(medico4.mostrarMedico());
+console.log(medico4.mostrarMedico()); */
 
 const arrMedicos = [];
 
@@ -88,7 +73,7 @@ arrMedicos.push(medico11);
 arrMedicos.push(medico12);
 
 
-arrMedicos.forEach(medico => console.log(medico.apellidoMedico));
+/* arrMedicos.forEach(medico => console.log(medico.apellidoMedico)); */
 
 const arrMedicosApellido = arrMedicos.map(e => e.apellidoMedico);
 
@@ -101,17 +86,15 @@ arrDiagnosticos.push('Lumbalgia');
 arrDiagnosticos.push('Hipertension');
 
 arrDiagnosticos.sort();
-arrDiagnosticos.forEach(e => console.log(e + '\n'));
+/* arrDiagnosticos.forEach(e => console.log(e + '\n')); */
 
 const paciente1 = new Paciente(1,'Rodriguez','Juan',50,arrDiagnosticos[1],1);
 const paciente2 = new Paciente(2,'Acosta','Rosa',50,arrDiagnosticos[0],2);
 const paciente3 = new Paciente(3,'Jimenez','Mabel',50,arrDiagnosticos[4],3);
 const paciente4 = new Paciente(4,'Galimberti','Jose',50,arrDiagnosticos[3],5);
 
-console.log(paciente1.mostrarMedicoTratante());
-console.log(paciente2.mostrarMedicoTratante());
-console.log(paciente3.mostrarMedicoTratante());
-console.log(paciente4.mostrarMedicoTratante());
+
+/* console.log(paciente4.mostrarMedicoCabecera()); */
 
 const arrPacientes = [];
 
@@ -122,4 +105,4 @@ arrPacientes.push(paciente4);
 
 const consultorio = new Consultorio(arrMedicos,arrPacientes);
 
-consultorio.mostrarMedicos();
+/* consultorio.mostrarMedicos(); */

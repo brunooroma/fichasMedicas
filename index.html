@@ -11,43 +11,45 @@
 
 <body>
     <header>
-        <nav class="header__nav">
+        <nav id="nav" class="header__nav">
+            <div id="navInicio">
+
+            </div>
             <div>
             <h2>Fichas Medicas</h2>
             </div>
             <div>
             <input type="text" id="inputFiltrar" placeholder="Buscar..">
-            <button type="button" id="btn_filtrar">Buscar</button>
+            <!-- <button type="button" id="btn_filtrar">Buscar</button> -->
             </div>
         </nav>
     </header>
 
-    <main>
-        <h1 id="titulo">Consultorio</h1>
-        <section id="mostrarMedicos">
-            <div id="mostrarTodosLosMedicos">
+    <main id="principal">
+        <div id="divPrincipal">
+            <h1 id="titulo">Medicos</h1>
+            <section id="mostrarMedicos">
+                <div id="mostrarTodosLosMedicos">
 
-            </div>
-           
-        </section>
+                </div>
 
-        <section>
-            <div id="formularioRegistro">
-                <h3>Complete los datos del paciente</h3>
-                <form id="formulario">
-                    <input type="text" name="nombre" id="nombre" placeholder="Nombre">
-                    <input type="text" name="apellido" id="apellido" placeholder="Apellido">
-                    <input type="number" name="edad" id="edad" placeholder="Edad">
-                    <input type="text" name="diagnostico" id="diagnostico" placeholder="Diagnostico">
-                    <input type="number" name="medicoID" id="medicoID" placeholder="MedicoID">
-                    <button id="registrarPaciente">Registrar Paciente</button>
+            </section>
 
-                </form>
-            </div>
-        </section>
+            <section>
+                <div id="formularioRegistro">
+                    <h3>Complete los datos del paciente</h3>
+                    <form id="formulario">
+                        <input type="text" name="nombre" id="nombre" placeholder="Nombre">
+                        <input type="text" name="apellido" id="apellido" placeholder="Apellido">
+                        <input type="number" name="edad" id="edad" placeholder="Edad">
+                        <input type="text" name="diagnostico" id="diagnostico" placeholder="Diagnostico">
+                        <input type="number" name="medicoID" id="medicoID" placeholder="MedicoID">
+                        <button id="registrarPaciente">Registrar Paciente</button>
 
-
-
+                    </form>
+                </div>
+            </section>
+        </div>
     </main>
 
     <script src="./js/clases.js"></script>
