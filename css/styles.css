@@ -38,7 +38,7 @@ body {
   align-items: center;
 }
 
-h2{
+h1{
   font-family: 'Staatliches', cursive;
   font-size: 3rem;
 }
@@ -76,6 +76,14 @@ img {
 }
 
 #mostrarTodosLosMedicos {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+#mostrarTodosLosPacientes {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
