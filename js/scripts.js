@@ -1,30 +1,3 @@
-/* let nav = document.getElementById('nav'); */
-
-/* let inicioSesion = document.getElementById('navInicio');
-inicioSesion.innerHTML += `<select id="selectUsuario" name="usuario">
-                            <option>Medico</option>
-                            <option>Paciente</option>
-                            </select>
-                            <input type="number" name="idUsuario" id="idUsuario" placeholder="Identificador">
-
-                            <button id="botonInicio">Seleccionar</button>`;
-
-nav.prepend(inicioSesion);
-
-let selectUsuario = document.getElementById('selectUsuario');
-let idUsuario = document.getElementById('idUsuario');
-let botonInicio = document.getElementById('botonInicio');
-
-const iniciarSesion = (e) => {
-    e.preventDefault();
-    let usuarioSesion = `${selectUsuario.value} ${idUsuario.value}`
-    sessionStorage.setItem('sessionUsuario',usuarioSesion)
-    idUsuario.value = "";
-}
-
-botonInicio.addEventListener('click', iniciarSesion)
- */
-
 let mostrarTodosLosMedicos = document.getElementById('mostrarTodosLosMedicos');
 const divMedicos = document.getElementsByClassName('div');
 
@@ -91,19 +64,23 @@ mostrarTarjetasPacientes();
 
 const registrarPaciente = () => {
 
-let nombrePacienteRegistro = document.getElementById('nombre');
-let apellidoPacienteRegistro = document.getElementById('apellido');
-let edadPacienteRegistro = document.getElementById('edad');
-let diagnosticoPacienteRegistro = document.getElementById('diagnostico');
-let medicoIDRegistro = document.getElementById('medicoID');
-let formularioRegistro =  document.getElementById('formulario');
+    let nombrePacienteRegistro = document.getElementById('nombre');
+    let apellidoPacienteRegistro = document.getElementById('apellido');
+    let edadPacienteRegistro = document.getElementById('edad');
+    let diagnosticoPacienteRegistro = document.getElementById('diagnostico');
+    let medicoIDRegistro = document.getElementById('medicoID');
+    let formularioRegistro =  document.getElementById('formulario');
 
-const pacienteRegistro = new Paciente((arrPacientes.length+1),apellidoPacienteRegistro.value,nombrePacienteRegistro.value,edadPacienteRegistro.value,diagnosticoPacienteRegistro.value,medicoIDRegistro.value);
+    const pacienteRegistro = new Paciente((arrPacientes.length+1),apellidoPacienteRegistro.value,nombrePacienteRegistro.value,edadPacienteRegistro.value,diagnosticoPacienteRegistro.value,medicoIDRegistro.value);
 
-arrPacientes.push(pacienteRegistro);
-localStorage.setItem('Pacientes',JSON.stringify(arrPacientes));
-formularioRegistro.reset();
-mostrarTarjetasPacientes();
+    if(apellidoPacienteRegistro.value == '' || nombrePacienteRegistro.value == '' || diagnosticoPacienteRegistro.value == ''){
+        alert('Por favor completar los datos del paciente');
+    }else {
+        arrPacientes.push(pacienteRegistro);
+        localStorage.setItem('Pacientes',JSON.stringify(arrPacientes));
+        formularioRegistro.reset();
+        mostrarTarjetasPacientes();
+    }
 }
 
 let registroPaciente = document.getElementById('registrarPaciente');
