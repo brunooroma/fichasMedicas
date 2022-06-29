@@ -24,10 +24,10 @@ let inputFiltrar = document.getElementById('inputFiltrar');
 const filtrarMedicos = () => {
     mostrarTodosLosMedicos.innerHTML = ``
     const medicosFiltrados = arrMedicos.filter((e) => {
-        return e.apellidoMedico.includes(inputFiltrar.value)});
+    return e.apellidoMedico.includes(inputFiltrar.value)});
     
     if(inputFiltrar.value !== ''){
-    medicosFiltrados.forEach((e) => {
+        medicosFiltrados.forEach((e) => {
         let tarjetaFiltrada = document.createElement('div');
         tarjetaFiltrada.setAttribute('class','tarjeta');
         mostrarTodosLosMedicos.append(tarjetaFiltrada);
@@ -40,10 +40,21 @@ const filtrarMedicos = () => {
     })}else {
         mostrarTarjetasMedicos();
     }
-
 }
 
 inputFiltrar.addEventListener('input',filtrarMedicos);
+
+const guardarLocalStorage = () => {
+    localStorage.setItem('Pacientes',JSON.stringify(arrPacientes))
+}
+
+const cargarLocalStorage = () => {
+    if(localStorage.getItem(('Pacientes') !== null)){
+        arrPacientes = JSON.parse(localStorage.getItem('Pacientes'));
+    }
+}
+
+cargarLocalStorage();
 
 const mostrarTarjetasPacientes = () => {
     mostrarTodosLosPacientes.innerHTML = '';
@@ -63,7 +74,6 @@ const mostrarTarjetasPacientes = () => {
 mostrarTarjetasPacientes();
 
 const registrarPaciente = () => {
-
     let nombrePacienteRegistro = document.getElementById('nombre');
     let apellidoPacienteRegistro = document.getElementById('apellido');
     let edadPacienteRegistro = document.getElementById('edad');
@@ -77,7 +87,8 @@ const registrarPaciente = () => {
         alert('Por favor completar los datos del paciente');
     }else {
         arrPacientes.push(pacienteRegistro);
-        localStorage.setItem('Pacientes',JSON.stringify(arrPacientes));
+        console.log(arrPacientes)
+        guardarLocalStorage();
         formularioRegistro.reset();
         mostrarTarjetasPacientes();
     }
