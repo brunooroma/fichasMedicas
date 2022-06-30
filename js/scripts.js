@@ -4,6 +4,8 @@ const divMedicos = document.getElementsByClassName('div');
 let mostrarTodosLosPacientes = document.getElementById('mostrarTodosLosPacientes');
 const divPacientes = document.getElementById('divPacientes');
 
+const miLocalStorage = window.localStorage;
+
 const mostrarTarjetasMedicos = () => {
     for (const e of arrMedicos) {
         let tarjeta = document.createElement('div');
@@ -45,12 +47,19 @@ const filtrarMedicos = () => {
 inputFiltrar.addEventListener('input',filtrarMedicos);
 
 const guardarLocalStorage = () => {
-    localStorage.setItem('Pacientes',JSON.stringify(arrPacientes))
+    miLocalStorage.setItem('Pacientes',JSON.stringify(arrPacientes))
 }
 
 const cargarLocalStorage = () => {
-    if(localStorage.getItem(('Pacientes') !== null)){
-        arrPacientes = JSON.parse(localStorage.getItem('Pacientes'));
+    if(localStorage.getItem('Pacientes')){
+        const lsPacientes = JSON.parse(localStorage.getItem('Pacientes'));
+        for (const lsPaciente of lsPacientes) {
+            let verify = arrPacientes.find((e) => e.pacienteID === lsPaciente.pacienteID)
+            if(!verify){
+                arrPacientes.push(lsPaciente)
+            }
+            
+        }
     }
 }
 
@@ -87,9 +96,9 @@ const registrarPaciente = () => {
         alert('Por favor completar los datos del paciente');
     }else {
         arrPacientes.push(pacienteRegistro);
-        console.log(arrPacientes)
         guardarLocalStorage();
         formularioRegistro.reset();
+        cargarLocalStorage();
         mostrarTarjetasPacientes();
     }
 }
