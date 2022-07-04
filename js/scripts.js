@@ -4,8 +4,6 @@ const divMedicos = document.getElementsByClassName('div');
 let mostrarTodosLosPacientes = document.getElementById('mostrarTodosLosPacientes');
 const divPacientes = document.getElementById('divPacientes');
 
-const miLocalStorage = window.localStorage;
-
 const mostrarTarjetasMedicos = () => {
     for (const e of arrMedicos) {
         let tarjeta = document.createElement('div');
@@ -14,7 +12,6 @@ const mostrarTarjetasMedicos = () => {
         tarjeta.innerHTML = `<h4>${e.apellidoMedico} ${e.nombreMedico}</h4>
                             <img src="./img/perfil.png">
                             <p>M.N: ${e.matriculaMedico}</p>`
-
         mostrarTodosLosMedicos.appendChild(tarjeta)
     }
 }
@@ -33,11 +30,9 @@ const filtrarMedicos = () => {
         let tarjetaFiltrada = document.createElement('div');
         tarjetaFiltrada.setAttribute('class','tarjeta');
         mostrarTodosLosMedicos.append(tarjetaFiltrada);
-
         tarjetaFiltrada.innerHTML += `<h4>${e.apellidoMedico} ${e.nombreMedico}</h4>
-        <img src="./img/perfil.png">
-        <p>M.N: ${e.matriculaMedico}</p>`
-
+                                        <img src="./img/perfil.png">
+                                        <p>M.N: ${e.matriculaMedico}</p>`
         mostrarTodosLosMedicos.appendChild(tarjetaFiltrada)
     })}else {
         mostrarTarjetasMedicos();
@@ -47,20 +42,14 @@ const filtrarMedicos = () => {
 inputFiltrar.addEventListener('input',filtrarMedicos);
 
 const guardarLocalStorage = () => {
-    miLocalStorage.setItem('Pacientes',JSON.stringify(arrPacientes))
+    localStorage.setItem('Pacientes',JSON.stringify(arrPacientes))
 }
 
 const cargarLocalStorage = () => {
-    if(localStorage.getItem('Pacientes')){
-        const lsPacientes = JSON.parse(localStorage.getItem('Pacientes'));
-        for (const lsPaciente of lsPacientes) {
-            let verify = arrPacientes.find((e) => e.pacienteID === lsPaciente.pacienteID)
-            if(!verify){
-                arrPacientes.push(lsPaciente)
-            }
-            
-        }
-    }
+    arrPacientes = JSON.parse(localStorage.getItem('Pacientes')) || arrPacientes
+ /*    if(localStorage.getItem('Pacientes')) {
+        arrPacientes = JSON.parse(localStorage.getItem('Pacientes'));
+    } */
 }
 
 cargarLocalStorage();
@@ -71,14 +60,14 @@ const mostrarTarjetasPacientes = () => {
         let tarjeta = document.createElement('div');
         tarjeta.setAttribute('class','tarjeta');
         mostrarTodosLosPacientes.append(tarjeta);
-        
         tarjeta.innerHTML = `<h4>${e.apellidoPaciente} ${e.nombrePaciente}</h4>
                             <img src="./img/perfil.png">
                             <p>Diagnostico: ${e.diagnosticoPaciente}</p>`
-
         mostrarTodosLosPacientes.appendChild(tarjeta)
     }
 }
+
+
 
 mostrarTarjetasPacientes();
 
@@ -93,7 +82,10 @@ const registrarPaciente = () => {
     const pacienteRegistro = new Paciente((arrPacientes.length+1),apellidoPacienteRegistro.value,nombrePacienteRegistro.value,edadPacienteRegistro.value,diagnosticoPacienteRegistro.value,medicoIDRegistro.value);
 
     if(apellidoPacienteRegistro.value == '' || nombrePacienteRegistro.value == '' || diagnosticoPacienteRegistro.value == ''){
-        alert('Por favor completar los datos del paciente');
+        swal.fire(
+            'Datos Incompletos',
+            'Por favor complete todos los datos del paciente',
+            'warning');
     }else {
         arrPacientes.push(pacienteRegistro);
         guardarLocalStorage();

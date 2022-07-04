@@ -96,7 +96,7 @@ const paciente4 = new Paciente(4,'Galimberti','Jose',50,arrDiagnosticos[3],5);
 
 /* console.log(paciente4.mostrarMedicoCabecera()); */
 
-const arrPacientes = [];
+let arrPacientes = [];
 
 arrPacientes.push(paciente1);
 arrPacientes.push(paciente2);
