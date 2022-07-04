@@ -47,9 +47,6 @@ const guardarLocalStorage = () => {
 
 const cargarLocalStorage = () => {
     arrPacientes = JSON.parse(localStorage.getItem('Pacientes')) || arrPacientes
- /*    if(localStorage.getItem('Pacientes')) {
-        arrPacientes = JSON.parse(localStorage.getItem('Pacientes'));
-    } */
 }
 
 cargarLocalStorage();
