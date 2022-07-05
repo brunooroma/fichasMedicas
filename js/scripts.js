@@ -13,7 +13,7 @@ function mueveReloj(){
     let segundo = momentoActual.getSeconds();
     segundo < 10 ? segundo = '0'+segundo : segundo;
 
-    let fechaActual = moment().format('MM/DD/YYYY');
+    let fechaActual = moment().format('DD/MM/YYYY');
     let horaActual = `${hora}:${minuto}:${segundo}`;
 
     divFechaActual.innerText = `${fechaActual} ${horaActual}`;
