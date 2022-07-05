@@ -6,12 +6,16 @@ const divPacientes = document.getElementById('divPacientes');
 
 const mostrarTarjetasMedicos = () => {
     for (const e of arrMedicos) {
+        let {apellidoMedico: apellido,
+            nombreMedico: nombre,
+            matriculaMedico: matricula} = e;
+
         let tarjeta = document.createElement('div');
         tarjeta.setAttribute('class','tarjeta');
         mostrarTodosLosMedicos.append(tarjeta);
-        tarjeta.innerHTML = `<h4>${e.apellidoMedico} ${e.nombreMedico}</h4>
+        tarjeta.innerHTML = `<h4>${apellido} ${nombre}</h4>
                             <img src="./img/perfil.png">
-                            <p>M.N: ${e.matriculaMedico}</p>`
+                            <p>M.N: ${matricula}</p>`
         mostrarTodosLosMedicos.appendChild(tarjeta)
     }
 }
@@ -27,13 +31,17 @@ const filtrarMedicos = () => {
     
     if(inputFiltrar.value !== ''){
         medicosFiltrados.forEach((e) => {
-        let tarjetaFiltrada = document.createElement('div');
-        tarjetaFiltrada.setAttribute('class','tarjeta');
-        mostrarTodosLosMedicos.append(tarjetaFiltrada);
-        tarjetaFiltrada.innerHTML += `<h4>${e.apellidoMedico} ${e.nombreMedico}</h4>
-                                        <img src="./img/perfil.png">
-                                        <p>M.N: ${e.matriculaMedico}</p>`
-        mostrarTodosLosMedicos.appendChild(tarjetaFiltrada)
+            let {apellidoMedico: apellido,
+                nombreMedico: nombre,
+                matriculaMedico: matricula} = e;
+            
+            let tarjetaFiltrada = document.createElement('div');
+            tarjetaFiltrada.setAttribute('class','tarjeta');
+            mostrarTodosLosMedicos.append(tarjetaFiltrada);
+            tarjetaFiltrada.innerHTML += `<h4>${apellido} ${nombre}</h4>
+                                            <img src="./img/perfil.png">
+                                            <p>M.N: ${matricula}</p>`
+            mostrarTodosLosMedicos.appendChild(tarjetaFiltrada)
     })}else {
         mostrarTarjetasMedicos();
     }
@@ -54,12 +62,13 @@ cargarLocalStorage();
 const mostrarTarjetasPacientes = () => {
     mostrarTodosLosPacientes.innerHTML = '';
     for (const e of arrPacientes) {
+
         let tarjeta = document.createElement('div');
         tarjeta.setAttribute('class','tarjeta');
         mostrarTodosLosPacientes.append(tarjeta);
-        tarjeta.innerHTML = `<h4>${e.apellidoPaciente} ${e.nombrePaciente}</h4>
+        tarjeta.innerHTML = `<h4>${e?.apellidoPaciente} ${e?.nombrePaciente}</h4>
                             <img src="./img/perfil.png">
-                            <p>Diagnostico: ${e.diagnosticoPaciente}</p>`
+                            <p>Diagnostico: ${e?.diagnosticoPaciente}</p>`
         mostrarTodosLosPacientes.appendChild(tarjeta)
     }
 }
@@ -99,3 +108,6 @@ registroPaciente.onclick = (e) => {
     registrarPaciente();
 }
 
+let arrConsultorio = [...arrMedicos, ...arrPacientes];
+
+console.log(arrConsultorio);
