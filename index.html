@@ -6,13 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment.min.js"></script>
     <link rel="stylesheet" href="./css/styles.css">
     <title>Fichas Medicas</title>
 </head>
 
-<body>
+<body onload="mueveReloj()">
     <header>
         <nav id="nav" class="header__nav">
+            <div>
+                <div id="fecha"></div>
+            </div>
             <div>
             <h1>Fichas Medicas</h1>
             </div>
@@ -60,6 +64,7 @@
 
     <script src="./js/clases.js"></script>
     <script src="./js/scripts.js"></script>
+
 
 </body>
 

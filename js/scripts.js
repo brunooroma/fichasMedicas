@@ -4,6 +4,22 @@ const divMedicos = document.getElementsByClassName('div');
 let mostrarTodosLosPacientes = document.getElementById('mostrarTodosLosPacientes');
 const divPacientes = document.getElementById('divPacientes');
 
+let divFechaActual = document.getElementById('fecha');
+
+function mueveReloj(){
+    momentoActual = new Date()
+    hora = momentoActual.getHours()
+    minuto = momentoActual.getMinutes()
+    segundo = momentoActual.getSeconds()
+    let fechaActual = moment().format('MM/DD/YYYY');
+
+    horaActual = `${hora}:${minuto}:${segundo}`;
+
+    divFechaActual.innerText = `${fechaActual} ${horaActual}`;
+
+    setTimeout("mueveReloj()",1000)
+}
+
 const mostrarTarjetasMedicos = () => {
     for (const e of arrMedicos) {
         let {apellidoMedico: apellido,
