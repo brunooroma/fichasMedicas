@@ -124,3 +124,15 @@ button {
 #botonInicio {
   margin-top: 1rem;
 }
+
+#navFecha {
+  width: 20%;
+  text-align: center;
+}
+
+#fecha {
+  background-color:#f9f9f9;
+  width: 70%;
+  border-radius: 5%;
+  color: black;
+}

@@ -7,18 +7,21 @@ const divPacientes = document.getElementById('divPacientes');
 let divFechaActual = document.getElementById('fecha');
 
 function mueveReloj(){
-    momentoActual = new Date()
-    hora = momentoActual.getHours()
-    minuto = momentoActual.getMinutes()
-    segundo = momentoActual.getSeconds()
-    let fechaActual = moment().format('MM/DD/YYYY');
+    let momentoActual = new Date();
+    let hora = momentoActual.getHours();
+    let minuto = momentoActual.getMinutes();
+    let segundo = momentoActual.getSeconds();
+    segundo < 10 ? segundo = '0'+segundo : segundo;
 
-    horaActual = `${hora}:${minuto}:${segundo}`;
+    let fechaActual = moment().format('MM/DD/YYYY');
+    let horaActual = `${hora}:${minuto}:${segundo}`;
 
     divFechaActual.innerText = `${fechaActual} ${horaActual}`;
 
-    setTimeout("mueveReloj()",1000)
+    setTimeout("mueveReloj()",1000);
 }
+
+mueveReloj();
 
 const mostrarTarjetasMedicos = () => {
     for (const e of arrMedicos) {
