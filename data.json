@@ -1,0 +1,62 @@
+[
+{
+    "medicoID": 1,
+    "apellidoMedico": "Suarez",
+    "nombreMedico": "Pablo",
+    "matriculaMedico": 123456
+},
+{
+    "medicoID": 2,
+    "apellidoMedico": "Marquez",
+    "nombreMedico": "Mariela",
+    "matriculaMedico": 118321
+},
+{
+    "medicoID": 3,
+    "apellidoMedico": "Zapata",
+    "nombreMedico": "Florencia",
+    "matriculaMedico": 98456
+},
+{
+    "medicoID": 4,
+    "apellidoMedico": "Fernandez",
+    "nombreMedico": "Esteban",
+    "matriculaMedico": 102354
+},
+{
+    "medicoID": 5,
+    "apellidoMedico": "Ramirez",
+    "nombreMedico": "Estela",
+    "matriculaMedico": 121854
+},
+{
+    "medicoID": 6,
+    "apellidoMedico": "Santos",
+    "nombreMedico": "Mauricio",
+    "matriculaMedico": 54623
+},
+{
+    "medicoID": 7,
+    "apellidoMedico": "Lopez",
+    "nombreMedico": "Hernan",
+    "matriculaMedico": 130587
+},
+{
+    "medicoID": 8,
+    "apellidoMedico": "Perez",
+    "nombreMedico": "Sofia",
+    "matriculaMedico": 135497
+},
+{
+    "medicoID": 9,
+    "apellidoMedico": "Suarez",
+    "nombreMedico": "Fabiana",
+    "matriculaMedico": 104202
+},
+{
+    "medicoID": 10,
+    "apellidoMedico": "Martinez",
+    "nombreMedico": "Gerardo",
+    "matriculaMedico": 110290
+}
+]

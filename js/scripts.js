@@ -11,19 +11,42 @@ function mueveReloj(){
     let hora = momentoActual.getHours();
     let minuto = momentoActual.getMinutes();
     let segundo = momentoActual.getSeconds();
-    segundo < 10 ? segundo = '0'+segundo : segundo;
+    minuto < 10 ? minuto = '0' + minuto : minuto;
+    segundo < 10 ? segundo = '0' + segundo : segundo;
 
     let fechaActual = moment().format('DD/MM/YYYY');
     let horaActual = `${hora}:${minuto}:${segundo}`;
 
     divFechaActual.innerText = `${fechaActual} ${horaActual}`;
 
-    setTimeout("mueveReloj()",1000);
+    /* setTimeout("mueveReloj()",1000); */ //setTimeout dentro de la funcion cumple el mismo efecto que el setInterval afuera
 }
 
-mueveReloj();
+setInterval('mueveReloj()',1000);
 
-const mostrarTarjetasMedicos = () => {
+let plantelMedico = '';
+
+const mostrarTarjetasMedicosFetch = async () => {
+    let response = await fetch('../data.json')
+    let data = await response.json()
+    plantelMedico = data;
+
+    data.forEach((medico) =>{
+        let {apellidoMedico: apellido,
+            nombreMedico: nombre,
+            matriculaMedico: matricula} = medico;
+
+        let tarjeta = document.createElement('div');
+        tarjeta.setAttribute('class','tarjeta');
+        mostrarTodosLosMedicos.append(tarjeta);
+        tarjeta.innerHTML = `<h4>${apellido} ${nombre}</h4>
+                            <img src="./img/perfil.png">
+                            <p>M.N: ${matricula}</p>`
+        mostrarTodosLosMedicos.appendChild(tarjeta)
+    })
+}
+
+/* const mostrarTarjetasMedicos = () => {
     for (const e of arrMedicos) {
         let {apellidoMedico: apellido,
             nombreMedico: nombre,
@@ -37,15 +60,15 @@ const mostrarTarjetasMedicos = () => {
                             <p>M.N: ${matricula}</p>`
         mostrarTodosLosMedicos.appendChild(tarjeta)
     }
-}
+} */
 
-mostrarTarjetasMedicos();
+mostrarTarjetasMedicosFetch();
 
 let inputFiltrar = document.getElementById('inputFiltrar');
 
 const filtrarMedicos = () => {
     mostrarTodosLosMedicos.innerHTML = ``
-    const medicosFiltrados = arrMedicos.filter((e) => {
+    const medicosFiltrados = plantelMedico.filter((e) => {
     return e.apellidoMedico.includes(inputFiltrar.value)});
     
     if(inputFiltrar.value !== ''){
@@ -62,7 +85,7 @@ const filtrarMedicos = () => {
                                             <p>M.N: ${matricula}</p>`
             mostrarTodosLosMedicos.appendChild(tarjetaFiltrada)
     })}else {
-        mostrarTarjetasMedicos();
+        mostrarTarjetasMedicosFetch();
     }
 }
 
@@ -129,4 +152,4 @@ registroPaciente.onclick = (e) => {
 
 let arrConsultorio = [...arrMedicos, ...arrPacientes];
 
-console.log(arrConsultorio);
+

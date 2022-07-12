@@ -39,7 +39,7 @@ class Paciente {
     }
 }
 
-const medico1 = new Medico(1,'Suarez','Pablo',123456);
+/* const medico1 = new Medico(1,'Suarez','Pablo',123456);
 const medico2 = new Medico(2,'Marquez','Mariela',118321);
 const medico3 = new Medico(3,'Zapata','Florencia',98456);
 const medico4 = new Medico(4,'Fernandez','Esteban',102354);
@@ -50,11 +50,11 @@ const medico8 = new Medico(8,'Perez','Sofia',135497);
 const medico9 = new Medico(9,'Suarez','Fabiana',104202);
 const medico10 = new Medico(10,'Martinez','Gerardo',110290);
 const medico11 = new Medico(11,'Hernandez','Soledad',87250);
-const medico12 = new Medico(12,'Garcia','Fabian',65326);
+const medico12 = new Medico(12,'Garcia','Fabian',65326); */
 
 const arrMedicos = [];
 
-arrMedicos.push(medico1);
+/* arrMedicos.push(medico1);
 arrMedicos.push(medico2);
 arrMedicos.push(medico3);
 arrMedicos.push(medico4);
@@ -65,11 +65,11 @@ arrMedicos.push(medico8);
 arrMedicos.push(medico9);
 arrMedicos.push(medico10);
 arrMedicos.push(medico11);
-arrMedicos.push(medico12);
+arrMedicos.push(medico12); */
 
-const arrMedicosApellido = arrMedicos.map(e => e.apellidoMedico);
+/* const arrMedicosApellido = arrMedicos.map(e => e.apellidoMedico);
 
-arrMedicosApellido.sort();
+arrMedicosApellido.sort(); */
 
 let arrDiagnosticos = ['Dolor de Cabeza','Esguince de Tobillo','Asma','Fiebre'];
 
