@@ -27,7 +27,7 @@ setInterval('mueveReloj()',1000);
 let plantelMedico = '';
 
 const mostrarTarjetasMedicosFetch = async () => {
-    let response = await fetch('../data.json')
+    let response = await fetch('data.json')
     let data = await response.json()
     plantelMedico = data;
 
@@ -68,7 +68,7 @@ let inputFiltrar = document.getElementById('inputFiltrar');
 
 const filtrarMedicos = () => {
     mostrarTodosLosMedicos.innerHTML = ``
-    const medicosFiltrados = plantelMedico.filter((e) => {
+    let medicosFiltrados = plantelMedico.filter((e) => {
     return e.apellidoMedico.includes(inputFiltrar.value)});
     
     if(inputFiltrar.value !== ''){
