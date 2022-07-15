@@ -11,15 +11,13 @@ function mueveReloj(){
     let hora = momentoActual.getHours();
     let minuto = momentoActual.getMinutes();
     let segundo = momentoActual.getSeconds();
+    hora < 10 ? hora = '0' + hora : hora;
     minuto < 10 ? minuto = '0' + minuto : minuto;
     segundo < 10 ? segundo = '0' + segundo : segundo;
 
     let fechaActual = moment().format('DD/MM/YYYY');
     let horaActual = `${hora}:${minuto}:${segundo}`;
-
     divFechaActual.innerText = `${fechaActual} ${horaActual}`;
-
-    /* setTimeout("mueveReloj()",1000); */ //setTimeout dentro de la funcion cumple el mismo efecto que el setInterval afuera
 }
 
 setInterval('mueveReloj()',1000);
@@ -27,8 +25,7 @@ setInterval('mueveReloj()',1000);
 let plantelMedico = '';
 let turnoMedico = '';
 let turnoPaciente = '';
-console.log(turnoMedico);
-console.log(turnoPaciente);
+let contadorPaciente = 0;
 let divTurno = document.getElementById('divTurno');
 
 const mostrarTarjetasMedicosFetch = async () => {
@@ -39,23 +36,28 @@ const mostrarTarjetasMedicosFetch = async () => {
     data.forEach((medico) =>{
         let {apellidoMedico: apellido,
             nombreMedico: nombre,
-            matriculaMedico: matricula} = medico;
+            especialidadMedico: especialidad} = medico;
 
         let tarjeta = document.createElement('div');
         let botonTurno = document.createElement('button');
         botonTurno.innerHTML = 'Seleccionar';
+        botonTurno.setAttribute('class','botonTurno');
         tarjeta.setAttribute('class','tarjeta');
         
         mostrarTodosLosMedicos.append(tarjeta);
         tarjeta.innerHTML = `<h4>${apellido} ${nombre}</h4>
                             <img src="./img/perfil.png">
-                            <p>M.N: ${matricula}</p>`
+                            <p>${especialidad}</p>`
         mostrarTodosLosMedicos.appendChild(tarjeta)
         tarjeta.append(botonTurno)
 
         botonTurno.addEventListener('click', function () {
             turnoMedico = `${apellido} ${nombre}`;
-            alert('Seleccione un paciente');
+            if(contadorPaciente === 0){
+                swal.fire('Seleccione un paciente');
+            }else{
+                swal.fire('Seleccione nuevamente el paciente');
+            };
             divTurno.innerHTML = ``;
             if (turnoPaciente != ''){
                 turnoPaciente = '';
@@ -74,8 +76,6 @@ if(turnoMedico == '' && turnoPaciente == '') {
     divTurno.append(mostrarTurno);
 }
 
-
-
 let inputFiltrar = document.getElementById('inputFiltrar');
 
 const filtrarMedicos = () => {
@@ -87,23 +87,24 @@ const filtrarMedicos = () => {
         medicosFiltrados.forEach((e) => {
             let {apellidoMedico: apellido,
                 nombreMedico: nombre,
-                matriculaMedico: matricula} = e;
+                especialidadMedico: especialidad} = e;
             
             let tarjetaFiltrada = document.createElement('div');
             let botonTurno = document.createElement('button');
             botonTurno.innerHTML = 'Seleccionar';
+            botonTurno.setAttribute('class','botonTurno');
             tarjetaFiltrada.setAttribute('class','tarjeta');
             mostrarTodosLosMedicos.append(tarjetaFiltrada);
             tarjetaFiltrada.innerHTML += `<h4>${apellido} ${nombre}</h4>
                                             <img src="./img/perfil.png">
-                                            <p>M.N: ${matricula}</p>`
+                                            <p>${especialidad}</p>`
             mostrarTodosLosMedicos.appendChild(tarjetaFiltrada)
             tarjetaFiltrada.append(botonTurno)
 
             botonTurno.addEventListener('click', function () {
                 turnoMedico = `${apellido} ${nombre}`;
-                alert('Seleccione un paciente');
                 divTurno.innerHTML = ``;
+                swal.fire('Seleccione un paciente');
                 visualizarTurno();
             })
     })
@@ -131,6 +132,7 @@ const mostrarTarjetasPacientes = () => {
         let tarjeta = document.createElement('div');
         let botonTurno = document.createElement('button');
         botonTurno.innerHTML = 'Seleccionar';
+        botonTurno.setAttribute('class','botonTurno')
         tarjeta.setAttribute('class','tarjeta');
         mostrarTodosLosPacientes.append(tarjeta);
         tarjeta.innerHTML = `<h4>${e?.apellidoPaciente} ${e?.nombrePaciente}</h4>
@@ -141,9 +143,14 @@ const mostrarTarjetasPacientes = () => {
 
         botonTurno.addEventListener('click', function () {
             turnoPaciente = `${e.apellidoPaciente} ${e.nombrePaciente}`;
-            alert('Por favor confirme el turno');
+            if(turnoMedico === ''){
+                swal.fire('Seleccione un medico')
+            }else{
+                swal.fire('Por favor seleccione una fecha');
+            }
             divTurno.innerHTML = ``;
             visualizarTurno();
+            contadorPaciente++;
         })
     }
 }
@@ -182,13 +189,30 @@ registroPaciente.onclick = (e) => {
 
 let arrConsultorio = [...arrMedicos, ...arrPacientes];
 
+let botonFecha = document.getElementById('confirmarFecha');
+let turnoFecha = ''
+
+botonFecha.addEventListener('click', function () {
+    turnoFecha = document.getElementById('fechaTurno').value;
+    if(turnoMedico === '' && turnoPaciente === ''){
+        swal.fire('Seleccione un medico y un paciente');
+    }else if(turnoMedico === ''){
+        swal.fire('Seleccione un medico');
+    }else if(turnoPaciente === '') {
+        swal.fire('Seleccione un paciente');
+    }else{
+        swal.fire('Seleccione una fecha');
+    }
+    divTurno.innerHTML = ``;
+    visualizarTurno();
+})
+
 const visualizarTurno = () => {
     mostrarTurno.remove();
-
     let verTurno = document.createElement('div')
     verTurno.innerHTML =    `<p>Profesional: ${turnoMedico}</p>
                             <p>Paciente: ${turnoPaciente}</p>
-                            <p>Fecha: ${new Date().toString()}</p>
+                            <p>Fecha: ${turnoFecha}</p>
                             `
     divTurno.append(verTurno)
 }

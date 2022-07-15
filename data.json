@@ -3,60 +3,60 @@
     "medicoID": 1,
     "apellidoMedico": "Suarez",
     "nombreMedico": "Pablo",
-    "matriculaMedico": 123456
+    "especialidadMedico": "Cardiologia"
 },
 {
     "medicoID": 2,
     "apellidoMedico": "Marquez",
     "nombreMedico": "Mariela",
-    "matriculaMedico": 118321
+    "especialidadMedico": "Neumonologia"
 },
 {
     "medicoID": 3,
     "apellidoMedico": "Zapata",
     "nombreMedico": "Florencia",
-    "matriculaMedico": 98456
+    "especialidadMedico": "Cirugia"
 },
 {
     "medicoID": 4,
     "apellidoMedico": "Fernandez",
     "nombreMedico": "Esteban",
-    "matriculaMedico": 102354
+    "especialidadMedico": "Traumatologia"
 },
 {
     "medicoID": 5,
     "apellidoMedico": "Ramirez",
     "nombreMedico": "Estela",
-    "matriculaMedico": 121854
+    "especialidadMedico": "Reumatologia"
 },
 {
     "medicoID": 6,
     "apellidoMedico": "Santos",
     "nombreMedico": "Mauricio",
-    "matriculaMedico": 54623
+    "especialidadMedico": "Pediatria"
 },
 {
     "medicoID": 7,
     "apellidoMedico": "Lopez",
     "nombreMedico": "Hernan",
-    "matriculaMedico": 130587
+    "especialidadMedico": "Clinica Medica"
 },
 {
     "medicoID": 8,
     "apellidoMedico": "Perez",
     "nombreMedico": "Sofia",
-    "matriculaMedico": 135497
+    "especialidadMedico": "Infectologia"
 },
 {
     "medicoID": 9,
     "apellidoMedico": "Suarez",
     "nombreMedico": "Fabiana",
-    "matriculaMedico": 104202
+    "especialidadMedico": "Neurologia"
 },
 {
     "medicoID": 10,
     "apellidoMedico": "Martinez",
     "nombreMedico": "Gerardo",
-    "matriculaMedico": 110290
+    "especialidadMedico": "Gastroenterologia"
 }
 ]
