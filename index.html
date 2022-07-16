@@ -14,21 +14,21 @@
 <body>
     <header>
         <nav id="nav" class="header__nav">
+            <div>
+                <h1>Fichas Medicas</h1>
+                </div>
             <div id="navFecha">
                 <div id="fecha"></div>
-            </div>
-            <div>
-            <h1>Fichas Medicas</h1>
-            </div>
-            <div>
-            <input type="text" id="inputFiltrar" placeholder="Buscar..">
             </div>
         </nav>
     </header>
 
     <main id="principal">
         <div id="divMedicos">
-            <h2 id="titulo">Medicos</h2>
+            <div id="tituloMedicos">
+                <h2 id="titulo">Medicos</h2>
+                <input type="text" id="inputFiltrar" placeholder="Buscar..">
+            </div>
             <section id="mostrarPersonas">
                 <div id="mostrarTodosLosMedicos">
 
@@ -50,7 +50,7 @@
 
                     </form>
                 </div>
-            </section>s
+            </section>
             <section id="mostrarPersonas">
                 <div id="mostrarTodosLosPacientes">
 
@@ -78,6 +78,7 @@
                         <div id="divTurno">
 
                         </div>
+                        <button id="confirmarTurno" class="oculto">Confirmar Turno</button>
                     </div>
                 </div>
             </section>

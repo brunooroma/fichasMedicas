@@ -71,10 +71,14 @@ mostrarTarjetasMedicosFetch();
 
 let mostrarTurno = document.createElement('h4');
 
-if(turnoMedico == '' && turnoPaciente == '') {
+const sinTurno = () => {
+    if(turnoMedico == '' && turnoPaciente == '') {
     mostrarTurno.innerHTML = 'No selecciono un turno';
-    divTurno.append(mostrarTurno);
+    divTurno.prepend(mostrarTurno);
 }
+}
+
+sinTurno();
 
 let inputFiltrar = document.getElementById('inputFiltrar');
 
@@ -103,8 +107,15 @@ const filtrarMedicos = () => {
 
             botonTurno.addEventListener('click', function () {
                 turnoMedico = `${apellido} ${nombre}`;
+                if(contadorPaciente === 0){
+                    swal.fire('Seleccione un paciente');
+                }else{
+                    swal.fire('Seleccione nuevamente el paciente');
+                };
                 divTurno.innerHTML = ``;
-                swal.fire('Seleccione un paciente');
+                if (turnoPaciente != ''){
+                    turnoPaciente = '';
+                }
                 visualizarTurno();
             })
     })
@@ -187,8 +198,6 @@ registroPaciente.onclick = (e) => {
     registrarPaciente();
 }
 
-let arrConsultorio = [...arrMedicos, ...arrPacientes];
-
 let botonFecha = document.getElementById('confirmarFecha');
 let turnoFecha = ''
 
@@ -200,12 +209,14 @@ botonFecha.addEventListener('click', function () {
         swal.fire('Seleccione un medico');
     }else if(turnoPaciente === '') {
         swal.fire('Seleccione un paciente');
-    }else{
+    }else if (turnoFecha === ''){
         swal.fire('Seleccione una fecha');
     }
     divTurno.innerHTML = ``;
     visualizarTurno();
 })
+
+let confirmarTurno = document.getElementById('confirmarTurno');
 
 const visualizarTurno = () => {
     mostrarTurno.remove();
@@ -214,5 +225,31 @@ const visualizarTurno = () => {
                             <p>Paciente: ${turnoPaciente}</p>
                             <p>Fecha: ${turnoFecha}</p>
                             `
-    divTurno.append(verTurno)
+    divTurno.append(verTurno);
+    if(turnoMedico !== '' && turnoPaciente !== '' && turnoFecha !== ''){
+        confirmarTurno.classList.remove('oculto');
+    }
 }
+
+let contadorTurno;
+const traerContadorTurno = () => {
+    if(localStorage.getItem('ContadorTurno')){
+        contadorTurno = JSON.parse(localStorage.getItem('ContadorTurno'))
+    }else{
+        contadorTurno = 0;
+    }
+}
+
+confirmarTurno.addEventListener('click', function () {
+    let turno = [turnoMedico,turnoPaciente,turnoFecha];
+    traerContadorTurno();
+    localStorage.setItem(`Turno${contadorTurno}`,JSON.stringify(turno));
+    turnoMedico = turnoPaciente = turnoFecha = '';
+    divTurno.innerHTML = ``;
+    sinTurno();
+    confirmarTurno.classList.add('oculto');
+    contadorTurno++;
+    localStorage.setItem('ContadorTurno',JSON.stringify(contadorTurno));
+    swal.fire('El turno fue agendado');
+    contadorPaciente = 0;
+})

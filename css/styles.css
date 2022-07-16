@@ -166,4 +166,26 @@ button {
 #formulario {
   background-color: #1965f3;
   border-radius: 1rem;
+  margin-bottom: 1rem;
+}
+
+#confirmarTurno {
+  border:2px solid #fff;
+  opacity: 0.7;
+  margin: 1rem;
+}
+
+#confirmarTurno:hover {
+  opacity: 1;
+}
+
+#tituloMedicos {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.oculto {
+  display: none;
 }
