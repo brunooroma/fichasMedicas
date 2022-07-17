@@ -7,8 +7,17 @@
 }
 
 body { 
-  background-color: #000;
+  background-color: rgb(245, 241, 241);
+  color: #000;
+}
+
+.modoOscuro {
+  background-color: rgb(29, 29, 29);
   color: #fff;
+}
+
+#botonModo {
+  margin: 1rem;
 }
 
 #navInicio select, input {
@@ -51,7 +60,7 @@ h1{
 .tarjeta {
   width: 12rem;
   height: auto;
-  background-color: azure;
+  background-color: #fff;
   color: #000;
   border-radius: 1rem;
   padding: 1rem;
@@ -61,10 +70,15 @@ h1{
   align-items: center;
   text-align: center;
   margin: 0 0.5rem;
+  border: 1px solid black;
 }
 
 .tarjeta h4 {
   margin-bottom: 1rem;
+}
+
+.tarjetaSeleccionada {
+  background-color: coral;
 }
 
 img {
@@ -92,6 +106,10 @@ img {
 
 #formularioRegistro {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 #formularioRegistro h3 {
@@ -120,14 +138,11 @@ button {
 #registrarPaciente {
   border:2px solid #fff;
   opacity: 0.7;
+  margin: 1rem;
 }
 
 #registrarPaciente:hover {
   opacity: 1;
-}
-
-#botonInicio {
-  margin-top: 1rem;
 }
 
 #fecha {
@@ -157,6 +172,7 @@ button {
 .mostrarTurno {
   background-color: #1965f3;
   border-radius: 1rem;
+  color: #fff;
 }
 
 .botonTurno {
@@ -188,4 +204,12 @@ button {
 
 .oculto {
   display: none;
+}
+
+.valorCorrecto {
+  border: 3px solid rgb(2, 190, 2);
+}
+
+.valorIncorrecto {
+  border: 3px solid red;
 }

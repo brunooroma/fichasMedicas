@@ -1,8 +1,23 @@
+let cuerpo = document.getElementById('cuerpo');
+let botonModo = document.getElementById('botonModo');
+
 let mostrarTodosLosMedicos = document.getElementById('mostrarTodosLosMedicos');
 const divMedicos = document.getElementsByClassName('div');
 
 let mostrarTodosLosPacientes = document.getElementById('mostrarTodosLosPacientes');
 const divPacientes = document.getElementById('divPacientes');
+
+let contadorModo = 1;
+
+botonModo.addEventListener('click', function () {
+    if(contadorModo % 2){
+        cuerpo.classList.add('modoOscuro');
+    }else{
+        cuerpo.classList.remove('modoOscuro');
+    }
+    contadorModo++
+})
+
 
 let divFechaActual = document.getElementById('fecha');
 
@@ -63,6 +78,7 @@ const mostrarTarjetasMedicosFetch = async () => {
                 turnoPaciente = '';
             }
             visualizarTurno();
+            tarjeta.classList.add('tarjetaSeleccionada');
         })
     })
 }
@@ -75,19 +91,20 @@ const sinTurno = () => {
     if(turnoMedico == '' && turnoPaciente == '') {
     mostrarTurno.innerHTML = 'No selecciono un turno';
     divTurno.prepend(mostrarTurno);
-}
+    }
 }
 
 sinTurno();
 
-let inputFiltrar = document.getElementById('inputFiltrar');
+let inputFiltrarMedico = document.getElementById('inputFiltrarMedico');
+let a = inputFiltrarMedico.value;
 
 const filtrarMedicos = () => {
     mostrarTodosLosMedicos.innerHTML = ``
     let medicosFiltrados = plantelMedico.filter((e) => {
-    return e.apellidoMedico.includes(inputFiltrar.value)});
-    
-    if(inputFiltrar.value !== ''){
+    return e.apellidoMedico.includes(inputFiltrarMedico.value)});
+
+    if(inputFiltrarMedico.value !== ''){
         medicosFiltrados.forEach((e) => {
             let {apellidoMedico: apellido,
                 nombreMedico: nombre,
@@ -124,7 +141,7 @@ const filtrarMedicos = () => {
     }
 }
 
-inputFiltrar.addEventListener('input',filtrarMedicos);
+inputFiltrarMedico.addEventListener('input',filtrarMedicos);
 
 const guardarLocalStorage = () => {
     localStorage.setItem('Pacientes',JSON.stringify(arrPacientes))
@@ -148,7 +165,7 @@ const mostrarTarjetasPacientes = () => {
         mostrarTodosLosPacientes.append(tarjeta);
         tarjeta.innerHTML = `<h4>${e?.apellidoPaciente} ${e?.nombrePaciente}</h4>
                             <img src="./img/perfil.png">
-                            <p>Diagnostico: ${e?.diagnosticoPaciente}</p>`
+                            <p>Correo: <br>${e?.emailPaciente}</p>`
         mostrarTodosLosPacientes.appendChild(tarjeta)
         tarjeta.append(botonTurno)
 
@@ -172,22 +189,29 @@ const registrarPaciente = () => {
     let nombrePacienteRegistro = document.getElementById('nombre');
     let apellidoPacienteRegistro = document.getElementById('apellido');
     let edadPacienteRegistro = document.getElementById('edad');
-    let diagnosticoPacienteRegistro = document.getElementById('diagnostico');
+    let emailPacienteRegistro = document.getElementById('email');
     let formularioRegistro =  document.getElementById('formulario');
 
-    const pacienteRegistro = new Paciente((arrPacientes.length+1),apellidoPacienteRegistro.value,nombrePacienteRegistro.value,edadPacienteRegistro.value,diagnosticoPacienteRegistro.value);
+    const pacienteRegistro = new Paciente((arrPacientes.length+1),apellidoPacienteRegistro.value,nombrePacienteRegistro.value,edadPacienteRegistro.value,emailPacienteRegistro.value);
 
-    if(apellidoPacienteRegistro.value == '' || nombrePacienteRegistro.value == '' || diagnosticoPacienteRegistro.value == ''){
+    if(apellidoPacienteRegistro.value == '' || nombrePacienteRegistro.value == '' || emailPacienteRegistro.value == ''){
         swal.fire(
             'Datos Incompletos',
             'Por favor complete todos los datos del paciente',
             'warning');
-    }else {
+    }else if(camposFormulario.nombre && camposFormulario.apellido && camposFormulario.edad && camposFormulario.email) {
         arrPacientes.push(pacienteRegistro);
         guardarLocalStorage();
         formularioRegistro.reset();
         cargarLocalStorage();
         mostrarTarjetasPacientes();
+        nombrePacienteRegistro.classList.remove('valorCorrecto','valorIncorrecto');
+        apellidoPacienteRegistro.classList.remove('valorCorrecto','valorIncorrecto');
+        edadPacienteRegistro.classList.remove('valorCorrecto','valorIncorrecto'); 
+        emailPacienteRegistro.classList.remove('valorCorrecto','valorIncorrecto');
+        swal.fire('Paciente registrado exitosamente');
+    }else{
+        swal.fire('Uno o mas campos son incorrectos');
     }
 }
 
@@ -196,10 +220,11 @@ let registroPaciente = document.getElementById('registrarPaciente');
 registroPaciente.onclick = (e) => {
     e.preventDefault();
     registrarPaciente();
+
 }
 
 let botonFecha = document.getElementById('confirmarFecha');
-let turnoFecha = ''
+let turnoFecha = '';
 
 botonFecha.addEventListener('click', function () {
     turnoFecha = document.getElementById('fechaTurno').value;
@@ -236,7 +261,7 @@ const traerContadorTurno = () => {
     if(localStorage.getItem('ContadorTurno')){
         contadorTurno = JSON.parse(localStorage.getItem('ContadorTurno'))
     }else{
-        contadorTurno = 0;
+        contadorTurno = 1;
     }
 }
 
@@ -252,4 +277,53 @@ confirmarTurno.addEventListener('click', function () {
     localStorage.setItem('ContadorTurno',JSON.stringify(contadorTurno));
     swal.fire('El turno fue agendado');
     contadorPaciente = 0;
+})
+
+const expresiones = {
+	texto: /^[a-zA-ZÀ-ÿ\s]{2,40}$/,
+	edad: /^[0-9]{1,3}$/,
+	correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/
+}
+
+const camposFormulario =  {
+    nombre: false,
+    apellido: false,
+    edad: false,
+    email: false
+}
+
+let inputs = document.querySelectorAll('#formulario input');
+
+const validarFormulario = (e) => {
+    switch(e.target.name){
+    case "nombre":
+            validarCampo(expresiones.texto, e.target, e.target.name)
+        break;
+    case "apellido":
+            validarCampo(expresiones.texto, e.target, e.target.name);
+        break;
+    case 'edad':
+        validarCampo(expresiones.edad, e.target, e.target.name);
+        break;
+    case 'email':
+        validarCampo(expresiones.correo, e.target, e.target.name);
+        break;
+}
+}
+
+const validarCampo = (expresion, input, campo) => {
+    if(expresion.test(input.value)){
+        document.querySelector(`#${campo}`).classList.add('valorCorrecto');
+        document.querySelector(`#${campo}`).classList.remove('valorIncorrecto');
+        camposFormulario[campo] = true;
+    }else{
+        document.querySelector(`#${campo}`).classList.add('valorIncorrecto');
+        document.querySelector(`#${campo}`).classList.remove('valorCorrecto');
+        camposFormulario[campo] = false;
+    }
+}
+
+inputs.forEach((input) => {
+    input.addEventListener('input',validarFormulario);
+    input.addEventListener('blur',validarFormulario);
 })

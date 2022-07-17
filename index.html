@@ -11,8 +11,11 @@
     <title>Fichas Medicas</title>
 </head>
 
-<body>
+<body id="cuerpo">
     <header>
+        <div>
+            <button id="botonModo">Claro - Oscuro</button>
+        </div>
         <nav id="nav" class="header__nav">
             <div>
                 <h1>Fichas Medicas</h1>
@@ -27,13 +30,12 @@
         <div id="divMedicos">
             <div id="tituloMedicos">
                 <h2 id="titulo">Medicos</h2>
-                <input type="text" id="inputFiltrar" placeholder="Buscar..">
+                <input type="text" id="inputFiltrarMedico" placeholder="Buscar..">
             </div>
             <section id="mostrarPersonas">
                 <div id="mostrarTodosLosMedicos">
 
                 </div>
-
             </section>
         </div>
         <div id="divPacientes">
@@ -42,12 +44,11 @@
                 <div id="formularioRegistro">
                     <h3>Complete los datos del paciente</h3>
                     <form id="formulario">
-                        <input type="text" name="nombre" id="nombre" placeholder="Nombre">
-                        <input type="text" name="apellido" id="apellido" placeholder="Apellido">
-                        <input type="number" name="edad" id="edad" placeholder="Edad">
-                        <input type="text" name="diagnostico" id="diagnostico" placeholder="Diagnostico">
+                        <input type="text" name="nombre" id="nombre" placeholder="Nombre" class="inputFormulario">
+                        <input type="text" name="apellido" id="apellido" placeholder="Apellido" class="inputFormulario">
+                        <input type="number" name="edad" id="edad" placeholder="Edad" class="inputFormulario">
+                        <input type="text" name="email" id="email" placeholder="Email" class="inputFormulario">
                         <button id="registrarPaciente">Registrar Paciente</button>
-
                     </form>
                 </div>
             </section>
@@ -88,8 +89,5 @@
     <script src="./js/clases.js"></script>
     <script src="./js/scripts.js"></script>
 
-
 </body>
-
-
 </html>
