@@ -68,17 +68,12 @@ h1{
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
   margin: 0 0.5rem;
   border: 1px solid black;
 }
 
 .tarjeta h4 {
   margin-bottom: 1rem;
-}
-
-.tarjetaSeleccionada {
-  background-color: coral;
 }
 
 img {
@@ -175,7 +170,7 @@ button {
   color: #fff;
 }
 
-.botonTurno {
+.boton {
   margin-top: 1rem;
 }
 
@@ -212,4 +207,12 @@ button {
 
 .valorIncorrecto {
   border: 3px solid red;
+}
+
+.botonBorrar {
+	padding: 0.2rem 0.5rem;
+}
+
+p {
+  text-align: center;
 }

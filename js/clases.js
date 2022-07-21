@@ -9,11 +9,11 @@ class Consultorio {
 }
 
 class Medico {
-    constructor(ID, apellido, nombre, matricula){
+    constructor(ID, apellido, nombre, especialidad){
         this.medicoID = parseInt(ID);
         this.apellidoMedico = apellido;
         this.nombreMedico = nombre;
-        this.matriculaMedico = parseInt(matricula);
+        this.especialidadMedico = parseInt(especialidad);
     }
     mostrarMedico() {
          return `El medico es: \n ${this.apellidoMedico} ${this.nombreMedico} \n`;
