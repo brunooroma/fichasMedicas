@@ -9,17 +9,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment.min.js"></script>
     <script src="https://kit.fontawesome.com/265e92ef12.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./css/styles.css">
-    <title>Fichas Medicas</title>
+    <title>Sistema de Turnos</title>
 </head>
 
 <body id="cuerpo">
     <header>
-        <div>
-            <button id="botonModo">Claro - Oscuro</button>
-        </div>
         <nav id="nav" class="header__nav">
+            <div id="divModo">
+                <button id="botonModo">
+                    <i class="fa-regular fa-moon fa-xl"></i>
+                </button>
+            </div>
             <div>
-                <h1>Fichas Medicas</h1>
+                <h1>Sistema de Turnos</h1>
                 </div>
             <div id="navFecha">
                 <div id="fecha"></div>
@@ -28,7 +30,7 @@
     </header>
 
     <main id="principal">
-        <div id="divMedicos">
+        <div id="divMedicos" class="formatoDivs">
             <div id="tituloMedicos">
                 <h2 id="titulo">Medicos</h2>
                 <input type="text" id="inputFiltrarMedico" placeholder="Buscar medico...">
@@ -39,7 +41,7 @@
                 </div>
             </section>
         </div>
-        <div id="divPacientes">
+        <div id="divPacientes" class="formatoDivs">
             <h2 id="titulo">Pacientes</h2>
             <section>
                 <div id="formularioRegistro">
@@ -62,7 +64,7 @@
         </div>
         <div>
             <section>
-                <div class="divFecha">
+                <div id="divFecha" class="formatoDivs">
                     <h2 id="titulo">Fecha</h2>
                     <div class="divFecha">
                         <h3>Seleccionar Fecha</h3>

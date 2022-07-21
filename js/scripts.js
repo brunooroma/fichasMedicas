@@ -1,5 +1,6 @@
 let cuerpo = document.getElementById('cuerpo');
 let botonModo = document.getElementById('botonModo');
+let iconoModo = document.getElementById('iconoModo');
 let mostrarTodosLosMedicos = document.getElementById('mostrarTodosLosMedicos');
 let mostrarTodosLosPacientes = document.getElementById('mostrarTodosLosPacientes');
 let divFechaActual = document.getElementById('fecha');
@@ -15,6 +16,9 @@ let botonFecha = document.getElementById('confirmarFecha');
 let hoy = moment().format('YYYY-MM-DD');
 let confirmarTurno = document.getElementById('confirmarTurno');
 let inputs = document.querySelectorAll('#formulario input');
+let divMedicos = document.getElementById('divMedicos');
+let divPacientes = document.getElementById('divPacientes');
+let divFecha = document.getElementById('divFecha');
 
 let contadorPaciente = 0; 
 let plantelMedico = '';
@@ -27,6 +31,24 @@ let contadorTurno;
 //FUNCION MODO OSCURO
 botonModo.addEventListener('click', function () {
     cuerpo.classList.toggle('modoOscuro');
+    if(cuerpo.classList.contains('modoOscuro')){
+        botonModo.innerHTML = `
+        <i class="fa-solid fa-sun fa-xl"></i>
+        `
+        divMedicos.classList.add('formatoDivsModoOscuro')
+        divPacientes.classList.add('formatoDivsModoOscuro')
+        divFecha.classList.add('formatoDivsModoOscuro')
+    }else{
+        botonModo.innerHTML = `
+        <i class="fa-regular fa-moon fa-xl"></i>
+        `
+        divMedicos.classList.remove('formatoDivsModoOscuro')
+        divPacientes.classList.remove('formatoDivsModoOscuro')
+        divFecha.classList.remove('formatoDivsModoOscuro')
+        divMedicos.classList.add('formatoDivs')
+        divPacientes.classList.add('formatoDivs')
+        divFecha.classList.add('formatoDivs')            
+    };
 })
 
 //FUNCION RELOJ
