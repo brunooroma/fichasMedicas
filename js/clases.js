@@ -13,7 +13,7 @@ class Medico {
         this.medicoID = parseInt(ID);
         this.apellidoMedico = apellido;
         this.nombreMedico = nombre;
-        this.especialidadMedico = parseInt(especialidad);
+        this.especialidadMedico = especialidad;
     }
     mostrarMedico() {
          return `El medico es: \n ${this.apellidoMedico} ${this.nombreMedico} \n`;

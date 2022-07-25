@@ -22,6 +22,7 @@ let divFecha = document.getElementById('divFecha');
 let botonAgregarMedico = document.getElementById('agregarMedico');
 let contenedorModal = document.getElementById('contenedorModal')
 let botonCerrarModal = document.getElementById('cerrarModal')
+let registroMedico = document.getElementById('registrarMedico');
 
 let contadorPaciente = 0; 
 let plantelMedico = '';
@@ -29,7 +30,9 @@ let turnoMedico = '';
 let turnoPaciente = '';
 let campoFecha = false;
 let turnoFecha = '';
-let contadorTurno;
+let contadorTurno; 
+let contadorIdMedico = 11;
+let contadorIdPaciente = 5;
 
 //FUNCION MODO OSCURO
 botonModo.addEventListener('click', function () {
@@ -61,15 +64,27 @@ const mueveReloj = () => {
 }
 setInterval('mueveReloj()',1000);
 
-//GUARDAR LOCALSTORAGE
-const guardarLocalStorage = () => {
-    localStorage.setItem('Pacientes',JSON.stringify(arrPacientes))
+//GUARDAR LOCALSTORAGE PACIENTE
+const guardarLocalStorage = (clave,arr) => {
+    localStorage.setItem(clave,JSON.stringify(arr))
 }
 
-//CARGAR LOCALSTORAGE
+//CARGAR LOCALSTORAGE PACIENTE
 const cargarLocalStorage = () => {
     arrPacientes = JSON.parse(localStorage.getItem('Pacientes')) || arrPacientes
 }
+
+//GUARDAR LOCALSTORAGE MEDICO
+const guardarLocalStorageMedico = (arr) => {
+    localStorage.setItem('Medicos',JSON.stringify(arr))
+}
+
+//CARGAR LOCALSTORAGE MEDICO
+const cargarLocalStorageMedico = () => {
+    plantelMedico = JSON.parse(localStorage.getItem('Medicos')) || plantelMedico
+}
+
+
 
 //CREAR TARJETAS
 const crearTarjeta = (apellido,nombre,otro,contenedor,id) => {
@@ -90,7 +105,7 @@ const eliminarTarjeta = (arr,id) => {
     let tarjetaEliminada = arr.find((e) => e.medicoID === id);
     let indice = arr.indexOf(tarjetaEliminada);
     arr.splice(indice,1);
-    console.log(arr);
+    guardarLocalStorageMedico(arr);
     mostrarTodosLosMedicos.innerHTML = ``;
     arr.forEach((medico) => {
         crearTarjeta(medico.apellidoMedico,medico.nombreMedico,medico.especialidadMedico,mostrarTodosLosMedicos,medico.medicoID);
@@ -107,7 +122,7 @@ const eliminarTarjeta = (arr,id) => {
     let tarjetaEliminada = arr.find((e) => e.pacienteID === id);
     let indice = arr.indexOf(tarjetaEliminada);
     arr.splice(indice,1);
-    console.log(arr);
+    guardarLocalStorage('Pacientes',arr);
     mostrarTodosLosPacientes.innerHTML = '';
     for (const paciente of arr) {
         let {apellidoPaciente: apellido,
@@ -126,6 +141,7 @@ const eliminarTarjeta = (arr,id) => {
     }
 }
 }
+
 
 //CREAR BOTON SELECCIONAR
 const crearBotonSeleccionar = () => {
@@ -154,10 +170,13 @@ const sinTurno = () => {
 
 //MOSTRAR MEDICOS
 const mostrarMedicos = async () => {
+    if(!localStorage.getItem('Medicos')){
     let response = await fetch('data.json')
     let data = await response.json()
     plantelMedico = data;
-
+    }else{
+        plantelMedico = JSON.parse(localStorage.getItem('Medicos'))
+    }
     plantelMedico.forEach((medico) => {
         crearTarjeta(medico.apellidoMedico,medico.nombreMedico,medico.especialidadMedico,mostrarTodosLosMedicos,medico.medicoID);
 
@@ -214,6 +233,49 @@ const filtrarMedicos = () => {
 
 //BUSCAR MEDICOS EN INPUT
 inputFiltrarMedico.addEventListener('input',filtrarMedicos);
+
+//REGISTRAR NUEVO MEDICO
+const registrarMedico = () => {
+    let nombreMedicoRegistro = document.getElementById('inputNombreMedico');
+    let apellidoMedicoRegistro = document.getElementById('inputApellidoMedico');
+    let especialidadMedicoRegistro = document.getElementById('inputEspecialidadMedico');
+    let formularioRegistro =  document.getElementById('formularioMedico');
+
+    if(!localStorage.getItem('ContadorIdMedico')){
+        guardarLocalStorage('ContadorIdMedico',contadorIdMedico);
+    }else{
+        contadorIdMedico = JSON.parse(localStorage.getItem('ContadorIdMedico'));
+    }
+
+    const medicoRegistro = new Medico(contadorIdMedico,apellidoMedicoRegistro.value,nombreMedicoRegistro.value,especialidadMedicoRegistro.value);
+
+    if(apellidoMedicoRegistro.value == '' || nombreMedicoRegistro.value == '' || especialidadMedicoRegistro.value == ''){
+        swal.fire(
+            'Datos Incompletos',
+            'Por favor complete todos los datos del medico',
+            'warning');
+    }else if(camposFormulario.inputNombreMedico && camposFormulario.inputApellidoMedico && camposFormulario.inputEspecialidadMedico) {
+        plantelMedico.push(medicoRegistro);
+        guardarLocalStorageMedico(plantelMedico);
+        formularioRegistro.reset();
+        mostrarTodosLosMedicos.innerHTML = '';
+        mostrarMedicos();
+        nombreMedicoRegistro.classList.remove('valorCorrecto','valorIncorrecto');
+        apellidoMedicoRegistro.classList.remove('valorCorrecto','valorIncorrecto');
+        especialidadMedicoRegistro.classList.remove('valorCorrecto','valorIncorrecto'); 
+        swal.fire('Medico registrado exitosamente');
+        contadorIdMedico++;
+        guardarLocalStorage('ContadorIdMedico',contadorIdMedico);
+    }else{
+        swal.fire('Uno o mas campos son incorrectos');
+    }
+}
+
+//BOTON REGISTRAR MEDICO
+registroMedico.onclick = (e) => {
+    e.preventDefault();
+    registrarMedico();
+}
 
 //MOSTRAR PACIENTES
 const mostrarPacientes = () => {
@@ -280,9 +342,15 @@ const registrarPaciente = () => {
     let edadPacienteRegistro = document.getElementById('edad');
     let emailPacienteRegistro = document.getElementById('email');
     let formularioRegistro =  document.getElementById('formulario');
-    let contadorID;
 
-    const pacienteRegistro = new Paciente((contadorID+1),apellidoPacienteRegistro.value,nombrePacienteRegistro.value,edadPacienteRegistro.value,emailPacienteRegistro.value);
+    if(!localStorage.getItem('ContadorIdPaciente')){
+        guardarLocalStorage('ContadorIdPaciente',contadorIdPaciente);
+    }else{
+        contadorIdPaciente = JSON.parse(localStorage.getItem('ContadorIdPaciente'));
+    }
+
+
+    const pacienteRegistro = new Paciente(contadorIdPaciente,apellidoPacienteRegistro.value,nombrePacienteRegistro.value,edadPacienteRegistro.value,emailPacienteRegistro.value);
 
     if(apellidoPacienteRegistro.value == '' || nombrePacienteRegistro.value == '' || emailPacienteRegistro.value == ''){
         swal.fire(
@@ -291,7 +359,7 @@ const registrarPaciente = () => {
             'warning');
     }else if(camposFormulario.nombre && camposFormulario.apellido && camposFormulario.edad && camposFormulario.email) {
         arrPacientes.push(pacienteRegistro);
-        guardarLocalStorage();
+        guardarLocalStorage('Pacientes',arrPacientes);
         formularioRegistro.reset();
         cargarLocalStorage();
         mostrarTodosLosPacientes.innerHTML = '';
@@ -301,7 +369,8 @@ const registrarPaciente = () => {
         edadPacienteRegistro.classList.remove('valorCorrecto','valorIncorrecto'); 
         emailPacienteRegistro.classList.remove('valorCorrecto','valorIncorrecto');
         swal.fire('Paciente registrado exitosamente');
-        contadorID++;
+        contadorIdPaciente++;
+        guardarLocalStorage('ContadorIdPaciente',contadorIdPaciente)
     }else{
         swal.fire('Uno o mas campos son incorrectos');
     }
@@ -316,10 +385,10 @@ registroPaciente.onclick = (e) => {
 //VALIDACION DE CAMPOS DEL FORMULARIO DE REGISTRO
 const validarFormulario = (e) => {
     switch(e.target.name){
-    case "nombre":
+    case 'nombre':
             validarCampo(expresiones.texto, e.target, e.target.name)
         break;
-    case "apellido":
+    case 'apellido':
             validarCampo(expresiones.texto, e.target, e.target.name);
         break;
     case 'edad':
@@ -328,7 +397,13 @@ const validarFormulario = (e) => {
     case 'email':
         validarCampo(expresiones.correo, e.target, e.target.name);
         break;
-    case "especialidad":
+    case 'inputNombreMedico':
+        validarCampo(expresiones.texto, e.target, e.target.name);
+    break;
+    case 'inputApellidoMedico':
+        validarCampo(expresiones.texto, e.target, e.target.name);
+    break;
+    case 'inputEspecialidadMedico':
         validarCampo(expresiones.texto, e.target, e.target.name);
     break;
     }
@@ -340,9 +415,9 @@ const camposFormulario =  {
     apellido: false,
     edad: false,
     email: false,
-    nombreMedico: false,
-    apellidoMedico: false,
-    especialidadMedico: false
+    inputNombreMedico: false,
+    inputApellidoMedico: false,
+    inputEspecialidadMedico: false
 }
 
 //EXPRESIONES REGULARES PARA COMPARAR
@@ -439,13 +514,18 @@ confirmarTurno.addEventListener('click',confirmacionTurno);
 
 sinTurno();
 cargarLocalStorage();
+cargarLocalStorageMedico();
 mostrarMedicos();
 mostrarPacientes();
 
 //AGREGAR MEDICO
 botonAgregarMedico.addEventListener('click', () => {
-    contenedorModal.classList.add('contenedorModalVisible');
-})
+    botonAgregarMedico.textContent = '+';
+    contenedorModal.classList.toggle('contenedorModalVisible');
+    if(contenedorModal.classList.contains('contenedorModalVisible')){
+        botonAgregarMedico.textContent = 'X';
+    }
+});
 
 botonCerrarModal.addEventListener('click', () => {
     contenedorModal.classList.remove('contenedorModalVisible');
