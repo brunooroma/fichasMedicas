@@ -210,7 +210,7 @@ const seleccionarMedico = (a) => {
 const filtrarMedicos = () => {
     mostrarTodosLosMedicos.innerHTML = ``;
     let medicosFiltrados = plantelMedico.filter((medico) => {
-    return medico.apellidoMedico.toLowerCase().includes(inputFiltrarMedico.value.toLowerCase())});
+    return medico.apellidoMedico.toLowerCase().includes(inputFiltrarMedico.value.toLowerCase()) || medico.nombreMedico.toLowerCase().includes(inputFiltrarMedico.value.toLowerCase())}) ;
     if(inputFiltrarMedico.value !== ''){
         medicosFiltrados.forEach((medico) => {
         let {apellidoMedico: apellido,
@@ -314,9 +314,7 @@ const seleccionarPaciente = (a) => {
 const filtrarPacientes = () => {
     mostrarTodosLosPacientes.innerHTML = ``
     let pacientesFiltrados = arrPacientes.filter((paciente) => {
-    return paciente.apellidoPaciente.toLowerCase().includes(inputFiltrarPaciente.value.toLowerCase())});
-        
-    console.log(pacientesFiltrados)
+    return paciente.apellidoPaciente.toLowerCase().includes(inputFiltrarPaciente.value.toLowerCase()) || paciente.nombrePaciente.toLowerCase().includes(inputFiltrarPaciente.value.toLowerCase())});
     if(inputFiltrarPaciente.value !== ''){
         pacientesFiltrados.forEach((paciente) => {
         let {apellidoPaciente: apellido,
