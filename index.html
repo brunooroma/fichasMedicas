@@ -30,10 +30,25 @@
     </header>
 
     <main id="principal">
-        <div id="divMedicos" class="formatoDivs">
+        <div id="divMedicos">
             <div id="tituloMedicos">
                 <h2 id="titulo">Medicos</h2>
-                <input type="text" id="inputFiltrarMedico" placeholder="Buscar medico...">
+                <div>
+                    <input type="text" id="inputFiltrarMedico" placeholder="Buscar medico...">
+                    <button id="agregarMedico">+</button>
+                </div>
+            </div>
+            <div id="contenedorModal" class="contenedorModal">
+                <div id="modalMedico" class="modalMedico">
+                    <h3>Complete los datos del medico</h3>
+                    <form id="formularioMedico">
+                        <input type="text" name="nombreMedico" id="inputNombreMedico" placeholder="Nombre" class="inputFormulario">
+                        <input type="text" name="apellidoMedico" id="inputApellidoMedico" placeholder="Apellido" class="inputFormulario">
+                        <input type="number" name="especialidadMedico" id="inputEspecialidadMedico" placeholder="Especialidad" class="inputFormulario">
+                        <button id="registrarMedico">Registrar Medico</button>
+                    </form>
+                    <button id="cerrarModal">Cerrar</button>
+                </div>
             </div>
             <section id="mostrarPersonas">
                 <div id="mostrarTodosLosMedicos">
@@ -41,7 +56,10 @@
                 </div>
             </section>
         </div>
-        <div id="divPacientes" class="formatoDivs">
+        <div id="bannerOS">
+           
+        </div>
+        <div id="divPacientes">
             <h2 id="titulo">Pacientes</h2>
             <section>
                 <div id="formularioRegistro">
@@ -64,7 +82,7 @@
         </div>
         <div>
             <section>
-                <div id="divFecha" class="formatoDivs">
+                <div id="divFecha">
                     <h2 id="titulo">Fecha</h2>
                     <div class="divFecha">
                         <h3>Seleccionar Fecha</h3>

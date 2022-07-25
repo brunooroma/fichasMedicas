@@ -15,10 +15,13 @@ let registroPaciente = document.getElementById('registrarPaciente');
 let botonFecha = document.getElementById('confirmarFecha');
 let hoy = moment().format('YYYY-MM-DD');
 let confirmarTurno = document.getElementById('confirmarTurno');
-let inputs = document.querySelectorAll('#formulario input');
+let inputs = document.querySelectorAll('form input');
 let divMedicos = document.getElementById('divMedicos');
 let divPacientes = document.getElementById('divPacientes');
 let divFecha = document.getElementById('divFecha');
+let botonAgregarMedico = document.getElementById('agregarMedico');
+let contenedorModal = document.getElementById('contenedorModal')
+let botonCerrarModal = document.getElementById('cerrarModal')
 
 let contadorPaciente = 0; 
 let plantelMedico = '';
@@ -35,19 +38,10 @@ botonModo.addEventListener('click', function () {
         botonModo.innerHTML = `
         <i class="fa-solid fa-sun fa-xl"></i>
         `
-        divMedicos.classList.add('formatoDivsModoOscuro')
-        divPacientes.classList.add('formatoDivsModoOscuro')
-        divFecha.classList.add('formatoDivsModoOscuro')
     }else{
         botonModo.innerHTML = `
         <i class="fa-regular fa-moon fa-xl"></i>
         `
-        divMedicos.classList.remove('formatoDivsModoOscuro')
-        divPacientes.classList.remove('formatoDivsModoOscuro')
-        divFecha.classList.remove('formatoDivsModoOscuro')
-        divMedicos.classList.add('formatoDivs')
-        divPacientes.classList.add('formatoDivs')
-        divFecha.classList.add('formatoDivs')            
     };
 })
 
@@ -78,16 +72,59 @@ const cargarLocalStorage = () => {
 }
 
 //CREAR TARJETAS
-const crearTarjeta = (apellido,nombre,otro,contenedor) => {
+const crearTarjeta = (apellido,nombre,otro,contenedor,id) => {
     tarjeta = document.createElement('div');
     tarjeta.classList.add('tarjeta');
     tarjeta.innerHTML = `
     <h4>${apellido} ${nombre}</h4>
     <img src="./img/perfil.png">
     <p>${otro}</p>`;
-    crearBotonBorrar();
+    crearBotonBorrar(id);
     crearBotonSeleccionar();
     contenedor.appendChild(tarjeta)
+}
+
+//ELIMINAR TARJETA MEDICO
+const eliminarTarjeta = (arr,id) => {
+    if(arr == plantelMedico){
+    let tarjetaEliminada = arr.find((e) => e.medicoID === id);
+    let indice = arr.indexOf(tarjetaEliminada);
+    arr.splice(indice,1);
+    console.log(arr);
+    mostrarTodosLosMedicos.innerHTML = ``;
+    arr.forEach((medico) => {
+        crearTarjeta(medico.apellidoMedico,medico.nombreMedico,medico.especialidadMedico,mostrarTodosLosMedicos,medico.medicoID);
+
+        botonSeleccionar.addEventListener('click',function () {
+            seleccionarMedico(medico);
+        },false);
+
+        botonBorrar.addEventListener('click',function () {
+            eliminarTarjeta(arr,medico.medicoID);
+        },false);
+})
+}else if(arr == arrPacientes){
+    let tarjetaEliminada = arr.find((e) => e.pacienteID === id);
+    let indice = arr.indexOf(tarjetaEliminada);
+    arr.splice(indice,1);
+    console.log(arr);
+    mostrarTodosLosPacientes.innerHTML = '';
+    for (const paciente of arr) {
+        let {apellidoPaciente: apellido,
+            nombrePaciente: nombre,
+            emailPaciente: email,
+            pacienteID: id} = paciente;
+        crearTarjeta(apellido,nombre,email,mostrarTodosLosPacientes,id);
+
+        botonSeleccionar.addEventListener('click',function () {
+            seleccionarPaciente(paciente);
+        },false);
+
+        botonBorrar.addEventListener('click',function () {
+            eliminarTarjeta(arr,id);
+        },false);
+    }
+}
 }
 
 //CREAR BOTON SELECCIONAR
@@ -99,10 +136,11 @@ const crearBotonSeleccionar = () => {
 }
 
 //CREAR BOTON BORRAR
-const crearBotonBorrar = () => {
+const crearBotonBorrar = (a) => {
     botonBorrar = document.createElement('button');
     botonBorrar.innerHTML = 'X';
     botonBorrar.classList.add('botonBorrar');
+    botonBorrar.dataset.item = a;
     tarjeta.prepend(botonBorrar);
 }
 
@@ -121,10 +159,14 @@ const mostrarMedicos = async () => {
     plantelMedico = data;
 
     plantelMedico.forEach((medico) => {
-        crearTarjeta(medico.apellidoMedico,medico.nombreMedico,medico.especialidadMedico,mostrarTodosLosMedicos);
+        crearTarjeta(medico.apellidoMedico,medico.nombreMedico,medico.especialidadMedico,mostrarTodosLosMedicos,medico.medicoID);
 
         botonSeleccionar.addEventListener('click',function () {
             seleccionarMedico(medico);
+        },false);
+
+        botonBorrar.addEventListener('click',function () {
+            eliminarTarjeta(plantelMedico,medico.medicoID);
         },false);
     })
 }
@@ -132,7 +174,6 @@ const mostrarMedicos = async () => {
 //BOTON SELECCIONAR MEDICO
 const seleccionarMedico = (a) => {
     turnoMedico = `${a.apellidoMedico} ${a.nombreMedico}`;
-    console.log(turnoMedico)
 
     if(contadorPaciente === 0){
         swal.fire('Seleccione un paciente');
@@ -144,7 +185,6 @@ const seleccionarMedico = (a) => {
         turnoPaciente = '';
     }
     visualizarTurno();
-
 }
 
 //FILTRAR TARJETAS MEDICOS
@@ -162,6 +202,10 @@ const filtrarMedicos = () => {
         botonSeleccionar.addEventListener('click',function () {
             seleccionarMedico(medico);
         },false);
+
+        botonBorrar.addEventListener('click',function () {
+            eliminarTarjeta(plantelMedico,medico.medicoID);
+        },false);
         })
     }else{
         mostrarMedicos();
@@ -177,11 +221,16 @@ const mostrarPacientes = () => {
     for (const paciente of arrPacientes) {
         let {apellidoPaciente: apellido,
             nombrePaciente: nombre,
-            emailPaciente: email} = paciente;
-        crearTarjeta(apellido,nombre,email,mostrarTodosLosPacientes);
+            emailPaciente: email,
+            pacienteID: id} = paciente;
+        crearTarjeta(apellido,nombre,email,mostrarTodosLosPacientes,id);
 
         botonSeleccionar.addEventListener('click',function () {
             seleccionarPaciente(paciente);
+        },false);
+
+        botonBorrar.addEventListener('click',function () {
+            eliminarTarjeta(arrPacientes,id);
         },false);
     }
 }
@@ -231,15 +280,16 @@ const registrarPaciente = () => {
     let edadPacienteRegistro = document.getElementById('edad');
     let emailPacienteRegistro = document.getElementById('email');
     let formularioRegistro =  document.getElementById('formulario');
+    let contadorID;
 
-    const pacienteRegistro = new Paciente((arrPacientes.length+1),apellidoPacienteRegistro.value,nombrePacienteRegistro.value,edadPacienteRegistro.value,emailPacienteRegistro.value);
+    const pacienteRegistro = new Paciente((contadorID+1),apellidoPacienteRegistro.value,nombrePacienteRegistro.value,edadPacienteRegistro.value,emailPacienteRegistro.value);
 
     if(apellidoPacienteRegistro.value == '' || nombrePacienteRegistro.value == '' || emailPacienteRegistro.value == ''){
         swal.fire(
             'Datos Incompletos',
             'Por favor complete todos los datos del paciente',
             'warning');
-    }else if(camposFormulario.nombre && camposFormulario.apellido && camposFormulario.edad &&   camposFormulario.email) {
+    }else if(camposFormulario.nombre && camposFormulario.apellido && camposFormulario.edad && camposFormulario.email) {
         arrPacientes.push(pacienteRegistro);
         guardarLocalStorage();
         formularioRegistro.reset();
@@ -251,6 +301,7 @@ const registrarPaciente = () => {
         edadPacienteRegistro.classList.remove('valorCorrecto','valorIncorrecto'); 
         emailPacienteRegistro.classList.remove('valorCorrecto','valorIncorrecto');
         swal.fire('Paciente registrado exitosamente');
+        contadorID++;
     }else{
         swal.fire('Uno o mas campos son incorrectos');
     }
@@ -277,6 +328,9 @@ const validarFormulario = (e) => {
     case 'email':
         validarCampo(expresiones.correo, e.target, e.target.name);
         break;
+    case "especialidad":
+        validarCampo(expresiones.texto, e.target, e.target.name);
+    break;
     }
 }
 
@@ -285,7 +339,10 @@ const camposFormulario =  {
     nombre: false,
     apellido: false,
     edad: false,
-    email: false
+    email: false,
+    nombreMedico: false,
+    apellidoMedico: false,
+    especialidadMedico: false
 }
 
 //EXPRESIONES REGULARES PARA COMPARAR
@@ -384,3 +441,12 @@ sinTurno();
 cargarLocalStorage();
 mostrarMedicos();
 mostrarPacientes();
+
+//AGREGAR MEDICO
+botonAgregarMedico.addEventListener('click', () => {
+    contenedorModal.classList.add('contenedorModalVisible');
+})
+
+botonCerrarModal.addEventListener('click', () => {
+    contenedorModal.classList.remove('contenedorModalVisible');
+})
