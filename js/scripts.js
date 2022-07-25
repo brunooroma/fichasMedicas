@@ -518,7 +518,7 @@ cargarLocalStorageMedico();
 mostrarMedicos();
 mostrarPacientes();
 
-//AGREGAR MEDICO
+//VER MODAL - AGREGAR MEDICO
 botonAgregarMedico.addEventListener('click', () => {
     botonAgregarMedico.textContent = '+';
     contenedorModal.classList.toggle('contenedorModalVisible');
@@ -530,3 +530,31 @@ botonAgregarMedico.addEventListener('click', () => {
 botonCerrarModal.addEventListener('click', () => {
     contenedorModal.classList.remove('contenedorModalVisible');
 })
+
+//VER TURNOS AGENDADOS
+let divTurnosAgendados = document.getElementById('verTurnosAgendados');
+let botonVerTurnosAgendados = document.getElementById('verTurnos');
+
+const verTurnosAgendados = () => {
+    let contador = 1;
+    let turnos;
+    let arrTurnos = [];
+    while((localStorage.getItem(`Turno${contador}`))){
+        turnos = JSON.parse(localStorage.getItem(`Turno${contador}`));
+        arrTurnos.push(turnos);
+        contador++;
+    }
+    divTurnosAgendados.innerHTML = ``;
+    arrTurnos.forEach((e) => {
+    tarjeta = document.createElement('div');
+    tarjeta.classList.add('tarjeta','tarjetaTurno');
+    tarjeta.innerHTML = `
+    Fecha Turno: ${e[2]}
+    Paciente: ${e[1]}
+    
+    Medico: ${e[0]}`;
+    divTurnosAgendados.appendChild(tarjeta);
+    })
+}
+
+botonVerTurnosAgendados.addEventListener('click',verTurnosAgendados);

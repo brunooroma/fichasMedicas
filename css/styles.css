@@ -263,3 +263,22 @@ p {
 #cerrarModal:hover, #registrarMedico:hover {
   opacity: 1;
 }
+
+#divTurnosAgendados {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+  flex-direction: column;
+}
+
+.tarjetaTurno {
+  margin: 1rem;
+}
+
+#visualizarTurnos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
