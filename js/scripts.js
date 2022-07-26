@@ -299,7 +299,9 @@ const registrarMedico = () => {
         nombreMedicoRegistro.classList.remove('valorCorrecto','valorIncorrecto');
         apellidoMedicoRegistro.classList.remove('valorCorrecto','valorIncorrecto');
         especialidadMedicoRegistro.classList.remove('valorCorrecto','valorIncorrecto'); 
-        swal.fire('Medico registrado exitosamente');
+        swal.fire({
+            title: 'Medico registrado exitosamente',
+            confirmButtonColor: '#1965f3'});
         contadorIdMedico++;
         guardarLocalStorage('ContadorIdMedico',contadorIdMedico);
     }else{
@@ -307,6 +309,7 @@ const registrarMedico = () => {
             icon: 'error',
             title: 'Algo no esta bien...',
             text: 'Uno o mas campos no son correctos',
+            confirmButtonColor: '#1965f3'
           })
     }
 }
@@ -337,13 +340,17 @@ const mostrarPacientes = () => {
     }
 }
 
-//BOTON SELECCIONAR PACIENTE
+//BOTON SELECCIONAR PACIENTE 
 const seleccionarPaciente = (a) => {
     turnoPaciente = `${a.apellidoPaciente} ${a.nombrePaciente}`;
     if(turnoMedico === ''){
-        swal.fire('Seleccione un medico');
+        swal.fire({
+            title: 'Seleccione un medico',
+            confirmButtonColor: '#1965f3' });
     }else{
-        swal.fire('Por favor seleccione una fecha');
+        swal.fire({
+            title: 'Por favor seleccione una fecha',
+            confirmButtonColor: '#1965f3'});
     }
     divTurno.innerHTML = ``;
     visualizarTurno();
@@ -581,15 +588,19 @@ mostrarPacientes();
 
 //VER MODAL - AGREGAR MEDICO
 botonAgregarMedico.addEventListener('click', () => {
-    botonAgregarMedico.textContent = '+';
+    botonAgregarMedico.textContent = 'Nuevo Medico';
     contenedorModal.classList.toggle('contenedorModalVisible');
     if(contenedorModal.classList.contains('contenedorModalVisible')){
         botonAgregarMedico.textContent = 'X';
+    }else if(!contenedorModal.classList.contains('contenedorModalVisible')){
+        botonAgregarMedico.textContent = 'Nuevo Medico';
     }
-});
+})
+
 
 botonCerrarModal.addEventListener('click', () => {
     contenedorModal.classList.remove('contenedorModalVisible');
+    botonAgregarMedico.textContent = 'Nuevo Medico';
 })
 
 //VER TURNOS AGENDADOS
