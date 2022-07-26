@@ -102,44 +102,75 @@ const crearTarjeta = (apellido,nombre,otro,contenedor,id) => {
 //ELIMINAR TARJETA MEDICO
 const eliminarTarjeta = (arr,id) => {
     if(arr == plantelMedico){
-    let tarjetaEliminada = arr.find((e) => e.medicoID === id);
-    let indice = arr.indexOf(tarjetaEliminada);
-    arr.splice(indice,1);
-    guardarLocalStorageMedico(arr);
-    mostrarTodosLosMedicos.innerHTML = ``;
-    arr.forEach((medico) => {
-        crearTarjeta(medico.apellidoMedico,medico.nombreMedico,medico.especialidadMedico,mostrarTodosLosMedicos,medico.medicoID);
+        Swal.fire({
+            title: 'Estas seguro que quieres eliminar?',
+            text: "No podras revertir esto",
+            icon: 'warning',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonColor: '#1965f3',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, eliminar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let tarjetaEliminada = arr.find((e) => e.medicoID === id);
+                let indice = arr.indexOf(tarjetaEliminada);
+                arr.splice(indice,1);
+                guardarLocalStorageMedico(arr);
+                mostrarTodosLosMedicos.innerHTML = ``;
+                arr.forEach((medico) => {
+                    crearTarjeta(medico.apellidoMedico,medico.nombreMedico,medico.especialidadMedico,mostrarTodosLosMedicos,medico.medicoID);
+            
+                    botonSeleccionar.addEventListener('click',function () {
+                        seleccionarMedico(medico);
+                    },false);
+            
+                    botonBorrar.addEventListener('click',function () {
+                        eliminarTarjeta(arr,medico.medicoID);
+                    },false);
+                })
+            }
+        })
+    }else if(arr == arrPacientes){
+            Swal.fire({
+                title: 'Estas seguro que quieres eliminar?',
+                text: "No podras revertir esto",
+                icon: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
+                confirmButtonColor: '#1965f3',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, eliminar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let tarjetaEliminada = arr.find((e) => e.pacienteID === id);
+                    let indice = arr.indexOf(tarjetaEliminada);
+                    arr.splice(indice,1);
+                    guardarLocalStorage('Pacientes',arr);
+                    mostrarTodosLosPacientes.innerHTML = '';
+                    for (const paciente of arr) {
+                        let {apellidoPaciente: apellido,
+                            nombrePaciente: nombre,
+                            emailPaciente: email,
+                            pacienteID: id} = paciente;
+                        crearTarjeta(apellido,nombre,email,mostrarTodosLosPacientes,id);
 
-        botonSeleccionar.addEventListener('click',function () {
-            seleccionarMedico(medico);
-        },false);
+                        botonSeleccionar.addEventListener('click',function () {
+                            seleccionarPaciente(paciente);
+                        },false);
 
-        botonBorrar.addEventListener('click',function () {
-            eliminarTarjeta(arr,medico.medicoID);
-        },false);
-})
-}else if(arr == arrPacientes){
-    let tarjetaEliminada = arr.find((e) => e.pacienteID === id);
-    let indice = arr.indexOf(tarjetaEliminada);
-    arr.splice(indice,1);
-    guardarLocalStorage('Pacientes',arr);
-    mostrarTodosLosPacientes.innerHTML = '';
-    for (const paciente of arr) {
-        let {apellidoPaciente: apellido,
-            nombrePaciente: nombre,
-            emailPaciente: email,
-            pacienteID: id} = paciente;
-        crearTarjeta(apellido,nombre,email,mostrarTodosLosPacientes,id);
-
-        botonSeleccionar.addEventListener('click',function () {
-            seleccionarPaciente(paciente);
-        },false);
-
-        botonBorrar.addEventListener('click',function () {
-            eliminarTarjeta(arr,id);
-        },false);
-    }
-}
+                        botonBorrar.addEventListener('click',function () {
+                            eliminarTarjeta(arr,id);
+                        },false);
+                    }
+                    Swal.fire({
+                        title: 'Eliminado!',
+                        text: 'El medico ha sido eliminado',
+                        icon: 'success',
+                        confirmButtonColor: '#1965f3'})
+                }
+            })
+        }
 }
 
 
@@ -195,9 +226,13 @@ const seleccionarMedico = (a) => {
     turnoMedico = `${a.apellidoMedico} ${a.nombreMedico}`;
 
     if(contadorPaciente === 0){
-        swal.fire('Seleccione un paciente');
+        swal.fire({
+            title: 'Seleccione un paciente',
+            confirmButtonColor: '#1965f3'});
     }else{
-        swal.fire('Seleccione nuevamente el paciente');
+        swal.fire({
+        title: 'Seleccione nuevamente el paciente',
+        confirmButtonColor: '#1965f3'});
     };
     divTurno.innerHTML = ``;
     if (turnoPaciente != ''){
@@ -250,10 +285,11 @@ const registrarMedico = () => {
     const medicoRegistro = new Medico(contadorIdMedico,apellidoMedicoRegistro.value,nombreMedicoRegistro.value,especialidadMedicoRegistro.value);
 
     if(apellidoMedicoRegistro.value == '' || nombreMedicoRegistro.value == '' || especialidadMedicoRegistro.value == ''){
-        swal.fire(
-            'Datos Incompletos',
-            'Por favor complete todos los datos del medico',
-            'warning');
+        swal.fire({
+            title: 'Datos Incompletos',
+            text: 'Por favor complete todos los datos del medico',
+            icon: 'warning',
+            confirmButtonColor: '#1965f3'});
     }else if(camposFormulario.inputNombreMedico && camposFormulario.inputApellidoMedico && camposFormulario.inputEspecialidadMedico) {
         plantelMedico.push(medicoRegistro);
         guardarLocalStorageMedico(plantelMedico);
@@ -267,7 +303,11 @@ const registrarMedico = () => {
         contadorIdMedico++;
         guardarLocalStorage('ContadorIdMedico',contadorIdMedico);
     }else{
-        swal.fire('Uno o mas campos son incorrectos');
+        Swal.fire({
+            icon: 'error',
+            title: 'Algo no esta bien...',
+            text: 'Uno o mas campos no son correctos',
+          })
     }
 }
 
@@ -352,10 +392,11 @@ const registrarPaciente = () => {
     const pacienteRegistro = new Paciente(contadorIdPaciente,apellidoPacienteRegistro.value,nombrePacienteRegistro.value,edadPacienteRegistro.value,emailPacienteRegistro.value);
 
     if(apellidoPacienteRegistro.value == '' || nombrePacienteRegistro.value == '' || emailPacienteRegistro.value == ''){
-        swal.fire(
-            'Datos Incompletos',
-            'Por favor complete todos los datos del paciente',
-            'warning');
+        swal.fire({
+            title: 'Datos Incompletos',
+            text: 'Por favor complete todos los datos del medico',
+            icon: 'warning',
+            confirmButtonColor: '#1965f3'});
     }else if(camposFormulario.nombre && camposFormulario.apellido && camposFormulario.edad && camposFormulario.email) {
         arrPacientes.push(pacienteRegistro);
         guardarLocalStorage('Pacientes',arrPacientes);
@@ -367,11 +408,18 @@ const registrarPaciente = () => {
         apellidoPacienteRegistro.classList.remove('valorCorrecto','valorIncorrecto');
         edadPacienteRegistro.classList.remove('valorCorrecto','valorIncorrecto'); 
         emailPacienteRegistro.classList.remove('valorCorrecto','valorIncorrecto');
-        swal.fire('Paciente registrado exitosamente');
+        swal.fire({
+            title: 'Paciente registrado exitosamente',
+            confirmButtonColor: '#1965f3'});
         contadorIdPaciente++;
         guardarLocalStorage('ContadorIdPaciente',contadorIdPaciente)
     }else{
-        swal.fire('Uno o mas campos son incorrectos');
+        Swal.fire({
+            icon: 'error',
+            title: 'Algo no esta bien...',
+            text: 'Uno o mas campos no son correctos',
+            confirmButtonColor: '#1965f3'}
+            );
     }
 }
 
@@ -449,17 +497,29 @@ inputs.forEach((input) => {
 const validarFecha = () => {
     turnoFecha = document.getElementById('fechaTurno').value;
     if(turnoMedico === '' && turnoPaciente === ''){
-        swal.fire('Seleccione un medico y un paciente');
+        swal.fire({
+            title: 'Seleccione un medico y un paciente',
+            confirmButtonColor: '#1965f3'});
     }else if(turnoMedico === ''){
-        swal.fire('Seleccione un medico');
+        swal.fire({
+            title: 'Seleccione un medico',
+            confirmButtonColor: '#1965f3'});
     }else if(turnoPaciente === '') {
-        swal.fire('Seleccione un paciente');
+        swal.fire({
+            title: 'Seleccione un paciente',
+            confirmButtonColor: '#1965f3'});
     }else if (turnoFecha === ''){
-        swal.fire('Seleccione una fecha');
+        swal.fire({
+            title: 'Seleccione una fecha',
+            confirmButtonColor: '#1965f3'});
     }else if(turnoFecha < hoy){
-        swal.fire('La fecha no puede ser anterior al dia de hoy');
+        swal.fire({
+            title: 'La fecha no puede ser anterior al dia de hoy',
+            confirmButtonColor: '#1965f3'});
     }else{
-        swal.fire(`La fecha seleccionada es: ${turnoFecha}`)
+        swal.fire({
+            title: `La fecha seleccionada es: ${turnoFecha}`,
+            confirmButtonColor: '#1965f3'});
         campoFecha = true;
     }
     divTurno.innerHTML = ``;
@@ -504,7 +564,9 @@ const confirmacionTurno = () => {
     confirmarTurno.classList.add('oculto');
     contadorTurno++;
     localStorage.setItem('ContadorTurno',JSON.stringify(contadorTurno));
-    swal.fire('El turno fue agendado');
+    swal.fire({
+        title: 'El turno fue agendado',
+        confirmButtonColor: '#1965f3'});
     contadorPaciente = 0;
 }
 
