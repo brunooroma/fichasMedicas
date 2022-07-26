@@ -1,22 +1,9 @@
-class Consultorio {
-    constructor(medicos,pacientes){
-        this.medicos = medicos;
-        this.pacientes = pacientes;
-    }
-    mostrarMedicos() {
-        this.medicos.forEach(e => console.log(`${e.apellidoMedico} ${e.nombreMedico}`));
-    }
-}
-
 class Medico {
     constructor(ID, apellido, nombre, especialidad){
         this.medicoID = parseInt(ID);
         this.apellidoMedico = apellido;
         this.nombreMedico = nombre;
         this.especialidadMedico = especialidad;
-    }
-    mostrarMedico() {
-         return `El medico es: \n ${this.apellidoMedico} ${this.nombreMedico} \n`;
     }
 }
 
@@ -28,14 +15,6 @@ class Paciente {
         this.edadPaciente = parseInt(edad);
         this.emailPaciente = email;
         this.medicoID = parseInt(medicoID);
-    }
-    mostrarPaciente() {
-        return `${this.apellidoPaciente} ${this.nombrePaciente} \n Email: ${this.emailPaciente}`;
-    }
-
-    mostrarMedicoCabecera() {
-        let medicoCabecera = arrMedicos.find(e => e.medicoID === this.medicoID)
-        return `El medico de cabecera es: ${medicoCabecera.apellidoMedico} ${medicoCabecera.nombreMedico}`
     }
 }
 
