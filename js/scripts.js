@@ -165,7 +165,7 @@ const eliminarTarjeta = (arr,id) => {
                     }
                     Swal.fire({
                         title: 'Eliminado!',
-                        text: 'El medico ha sido eliminado',
+                        text: 'El paciente ha sido eliminado',
                         icon: 'success',
                         confirmButtonColor: '#1965f3'})
                 }
@@ -178,7 +178,7 @@ const eliminarTarjeta = (arr,id) => {
 const crearBotonSeleccionar = () => {
     botonSeleccionar = document.createElement('button');
     botonSeleccionar.innerHTML = 'Seleccionar';
-    botonSeleccionar.classList.add('boton');
+    botonSeleccionar.classList.add('botonSeleccionar');
     tarjeta.append(botonSeleccionar);
 }
 
